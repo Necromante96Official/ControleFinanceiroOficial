@@ -1,0 +1,673 @@
+/**
+ * CORREÇÕES E MELHORIAS PARA RESPONSIVIDADE MOBILE
+ * Este arquivo contém as correções necessárias para o layout funcionar corretamente
+ * em dispositivos móveis de todas os tamanhos.
+ * 
+ * INSTRUÇÕES DE USO:
+ * 1. Adicione este conteúdo ao final do arquivo assets/css/layout.css
+ * 2. Alternativamente, crie um novo arquivo assets/css/responsive-mobile.css
+ *    e importe-o em assets/css/index.css APÓS layout.css
+ */
+
+/* ========================================================================
+   MOBILE RESPONSIVO - Suporte para Safe Area (notch devices)
+   ======================================================================== */
+
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+    padding-bottom: 0;
+  }
+}
+
+/* ========================================================================
+   MOBILE PEQUENO (320px - 375px)
+   ======================================================================== */
+
+@media (max-width: 375px) {
+  .screen {
+    padding: 0.75rem 0.5rem;
+    padding-bottom: var(--app-content-bottom-padding);
+    gap: 1rem;
+  }
+
+  .panel {
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+  }
+
+  .panel__header {
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .panel__title {
+    font-size: 1.1rem;
+  }
+
+  .panel__tag {
+    font-size: 0.7rem;
+  }
+
+  /* ========================================================================
+     CONFIGURAÇÕES - Ritmo e espaçamento padrão do app
+     ======================================================================== */
+
+  .config-panel {
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+  }
+
+  .config-panel__header {
+    padding: 0;
+    margin-bottom: 1rem;
+  }
+
+  .config-panel__subtitle {
+    font-size: var(--fs-md);
+    line-height: var(--lh-relaxed);
+  }
+
+  .config-panel .danger-zone {
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .config-panel__footer {
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-bottom-left-radius: var(--radius-lg);
+    border-bottom-right-radius: var(--radius-lg);
+  }
+
+  /* Grid responsivo para telas pequenas */
+  .categories-grid {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .benefits-grid {
+    gap: 0.5rem;
+  }
+
+  .benefits-stats {
+    display: block;
+  }
+
+  .stat-card {
+    padding: 0.6rem 0.75rem;
+    min-height: 70px;
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
+  }
+
+  .stat-value {
+    font-size: 0.9rem;
+  }
+
+  /* Cards de categoria/benefício com melhor proporção */
+  .category-card {
+    padding: 0.85rem;
+  }
+
+  .benefit-card {
+    padding: 0.6rem;
+    min-height: 80px;
+  }
+
+  .category-card__icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.3rem;
+  }
+
+  .category-card strong {
+    font-size: 0.95rem;
+  }
+
+  .benefit-card__icon {
+    font-size: 1.8rem;
+  }
+
+  .benefit-card__name {
+    font-size: 0.85rem;
+  }
+
+  /* Botão flutuante para telas pequenas */
+  .footer__add-btn {
+    width: 52px;
+    height: 52px;
+    font-size: 1.8rem;
+    bottom: 84px;
+    right: 12px;
+    box-shadow: 0 4px 16px rgba(31, 194, 192, 0.3);
+  }
+
+  /* Footer menor em telas pequenas */
+  .footer__nav {
+    height: 56px;
+  }
+
+  .footer__link {
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* Formulários em telas pequenas */
+  .form-sheet__body {
+    padding: 1.5rem 1rem 2.5rem;
+  }
+
+  .field input {
+    padding: 0.75rem 0.85rem;
+    font-size: 1rem;
+  }
+
+  .form-sheet__actions button {
+    padding: 0.7rem;
+    font-size: 0.85rem;
+  }
+
+  /* Cards redondos para melhor toque */
+  .color-option,
+  .icon-option {
+    border-radius: 8px;
+  }
+
+  /* ========================================================================
+     EXTRATO - Melhor leitura em telas pequenas
+     ======================================================================== */
+
+  .extrato-filters {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  .extrato-grid {
+    gap: 0.5rem;
+  }
+}
+
+/* ========================================================================
+   MOBILE MÉDIO (376px - 480px)
+   ======================================================================== */
+
+@media (min-width: 376px) and (max-width: 480px) {
+  .screen {
+    padding: 1rem 0.75rem;
+    padding-bottom: var(--app-content-bottom-padding);
+    gap: 1.25rem;
+  }
+
+  .categories-grid {
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .benefits-grid {
+    gap: 0.6rem;
+  }
+
+  .benefits-stats {
+    display: block;
+  }
+
+  .category-card {
+    padding: 0.95rem;
+  }
+
+  .benefit-card {
+    padding: 0.7rem;
+    min-height: 85px;
+  }
+
+  .category-card__icon {
+    width: 44px;
+    height: 44px;
+    font-size: 1.4rem;
+  }
+
+  .benefit-card {
+    padding: 1rem;
+  }
+
+  .footer__add-btn {
+    width: 56px;
+    height: 56px;
+    font-size: 2rem;
+    bottom: 80px;
+    right: 16px;
+  }
+
+  .footer__link {
+    font-size: 0.8rem;
+  }
+
+  /* ========================================================================
+     EXTRATO - Ajuste leve de densidade
+     ======================================================================== */
+
+  .extrato-filters {
+    gap: 0.65rem;
+  }
+
+  .extrato-grid {
+    gap: 0.55rem;
+  }
+}
+
+/* ========================================================================
+   MOBILE GRANDE (481px - 599px)
+   ======================================================================== */
+
+@media (min-width: 481px) and (max-width: 599px) {
+  .screen {
+    padding: 1.25rem 1rem;
+    padding-bottom: var(--app-content-bottom-padding);
+    gap: 1.5rem;
+  }
+
+  .categories-grid {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .benefits-grid {
+    gap: 0.7rem;
+  }
+
+  .benefits-stats {
+    display: block;
+  }
+
+  .benefit-card {
+    padding: 0.8rem;
+    min-height: 90px;
+  }
+}
+
+/* ========================================================================
+   TABLET PEQUENO (600px - 767px)
+   ======================================================================== */
+
+@media (min-width: 600px) and (max-width: 767px) {
+  .screen {
+    max-width: 100%;
+    padding: 1.5rem 1.25rem;
+    padding-bottom: var(--app-content-bottom-padding);
+    gap: 1.75rem;
+  }
+
+  .categories-grid,
+  .benefits-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .benefits-stats {
+    display: block;
+  }
+
+  /* Mostrar footer horizontal em tablets */
+  .footer {
+    height: 64px;
+  }
+
+  .footer__add-btn {
+    width: 60px;
+    height: 60px;
+    bottom: 72px;
+  }
+}
+
+/* ========================================================================
+   TABLET (768px - 1023px)
+   ======================================================================== */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --footer-height: 0px;
+  }
+
+  .screen {
+    max-width: 100%;
+    padding: 2rem 1.5rem;
+    gap: 2rem;
+  }
+
+  .categories-grid,
+  .benefits-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .benefits-stats {
+    display: block;
+  }
+
+  .form-sheet {
+    align-items: center;
+  }
+
+  .form-sheet__body {
+    max-width: 480px;
+    max-height: 80vh;
+    border-radius: var(--radius-xl);
+  }
+
+  .footer {
+    display: none;
+  }
+
+  .footer__add-btn {
+    display: none;
+  }
+}
+
+/* ========================================================================
+   DESKTOP PEQUENO (1024px - 1279px)
+   ======================================================================== */
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  :root {
+    --footer-height: 0px;
+  }
+
+  .screen {
+    max-width: 1000px;
+    padding: 2.5rem 2rem;
+    gap: 2rem;
+  }
+
+  .categories-grid,
+  .benefits-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.75rem;
+  }
+
+  .benefits-stats {
+    display: block;
+  }
+
+  .form-sheet {
+    align-items: center;
+  }
+
+  .form-sheet__body {
+    max-width: 500px;
+    border-radius: var(--radius-xl);
+  }
+
+  .footer {
+    display: none;
+  }
+
+  .footer__add-btn {
+    display: none;
+  }
+}
+
+/* ========================================================================
+   DESKTOP MÉDIO (1280px - 1535px)
+   ======================================================================== */
+
+@media (min-width: 1280px) and (max-width: 1535px) {
+  :root {
+    --footer-height: 0px;
+  }
+
+  .screen {
+    max-width: 1200px;
+    padding: 3rem;
+    gap: 2.5rem;
+  }
+
+  .categories-grid,
+  .benefits-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+  }
+
+  .benefits-stats {
+    display: block;
+  }
+
+  .form-sheet {
+    align-items: center;
+  }
+
+  .form-sheet__body {
+    max-width: 550px;
+  }
+
+  .footer {
+    display: none;
+  }
+
+  .footer__add-btn {
+    display: none;
+  }
+}
+
+/* ========================================================================
+   DESKTOP GRANDE (1536px+)
+   ======================================================================== */
+
+@media (min-width: 1536px) {
+  :root {
+    --footer-height: 0px;
+  }
+
+  .screen {
+    max-width: 1400px;
+    padding: 3.5rem;
+    gap: 3rem;
+  }
+
+  .categories-grid,
+  .benefits-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2.25rem;
+  }
+
+  .benefits-stats {
+    display: block;
+  }
+
+  .form-sheet {
+    align-items: center;
+  }
+
+  .form-sheet__body {
+    max-width: 600px;
+  }
+
+  .footer {
+    display: none;
+  }
+
+  .footer__add-btn {
+    display: none;
+  }
+}
+
+/* ========================================================================
+   ORIENTAÇÃO: LANDSCAPE NO MOBILE
+   ======================================================================== */
+
+@media (max-height: 500px) and (orientation: landscape) {
+  :root {
+    --footer-height: 48px;
+  }
+
+  .screen {
+    min-height: auto;
+    padding: 0.75rem 0.5rem;
+    padding-bottom: var(--app-content-bottom-padding);
+  }
+
+  .footer {
+    height: 48px;
+  }
+
+  .footer__nav {
+    height: 48px;
+  }
+
+  .footer__link {
+    font-size: 0.75rem;
+  }
+
+  .panel {
+    padding: 0.75rem;
+  }
+
+  .stat-card {
+    padding: 0.5rem;
+    min-height: 60px;
+  }
+
+  .benefits-stats {
+    display: block;
+  }
+}
+
+/* ========================================================================
+   EXTRATO: Header sempre com ações à direita
+   ======================================================================== */
+
+@media (max-width: 520px) {
+  .panel--extrato .panel__header {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .panel--extrato .panel__header-actions {
+    margin-left: auto;
+  }
+
+  /* Configurações: manter o mesmo “respiro” do restante */
+  .config-panel {
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+  }
+
+  .config-panel__header {
+    padding: 0;
+  }
+
+  .config-panel__subtitle {
+    font-size: var(--fs-md);
+    line-height: var(--lh-relaxed);
+  }
+
+  .config-panel .danger-zone {
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .config-panel__footer {
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-bottom-left-radius: var(--radius-lg);
+    border-bottom-right-radius: var(--radius-lg);
+  }
+}
+
+/* ========================================================================
+   ORIENTAÇÃO: PORTRAIT NO TABLET
+   ======================================================================== */
+
+@media (orientation: portrait) and (min-width: 600px) and (max-width: 899px) {
+  .screen {
+    padding: 1.5rem;
+    padding-bottom: var(--app-content-bottom-padding);
+  }
+
+  .categories-grid,
+  .benefits-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ========================================================================
+   ACESSIBILIDADE: Reduzir movimento
+   ======================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .splash-logo {
+    animation: none;
+  }
+
+  #progress-bar {
+    animation: none;
+  }
+
+  .splash-progress-text {
+    animation: none;
+  }
+}
+
+/* ========================================================================
+   ACESSIBILIDADE: Modo de Alto Contraste
+   ======================================================================== */
+
+@media (prefers-contrast: more) {
+  .category-card,
+  .benefit-card,
+  .stat-card {
+    border-width: 2px;
+  }
+
+  .button-secondary {
+    border-width: 2px;
+  }
+
+  button:focus {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+/* ========================================================================
+   PRINT STYLES (Para impressão)
+   ======================================================================== */
+
+@media print {
+  .footer,
+  .footer__add-btn,
+  .card__actions {
+    display: none !important;
+  }
+
+  .screen {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+
+  .category-card,
+  .benefit-card,
+  .stat-card {
+    background: white;
+    border: 1px solid #000;
+    color: black;
+  }
+}

@@ -1,0 +1,141 @@
+/**
+ * Footer Styles
+ * Navegação inferior fixa com scroll horizontal
+ */
+
+.footer {
+  position: fixed;
+  inset: auto 0 0;
+  width: 100%;
+  background: rgba(5, 7, 8, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(31, 194, 192, 0.1);
+  z-index: 100;
+  padding: 0;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.footer__nav-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.footer__nav-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.footer__nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 64px;
+  min-width: max-content;
+  padding: 0 8px;
+}
+
+.footer__link {
+  flex: 0 0 auto;
+  min-width: 90px;
+  height: 100%;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border-bottom: 3px solid transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.footer__link:hover {
+  color: var(--text);
+  background: rgba(31, 194, 192, 0.05);
+}
+
+.footer__link--active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  background: rgba(31, 194, 192, 0.08);
+  box-shadow: 0 -4px 12px rgba(31, 194, 192, 0.1);
+}
+
+@media (max-width: 520px) {
+  .footer__link {
+    font-size: 0.8rem;
+    min-width: 80px;
+    padding: 0 12px;
+  }
+}
+
+@media (min-width: 521px) {
+  .footer__nav-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .footer__nav {
+    max-width: 520px;
+  }
+  
+  .footer__link {
+    flex: 1;
+    min-width: auto;
+  }
+}
+
+/* Botão adicionar universal */
+.footer__add-btn {
+  position: fixed;
+  bottom: 96px;
+  right: 18px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  border: none;
+  color: var(--bg);
+  font-size: 2.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: 0 6px 24px rgba(31, 194, 192, 0.35), 0 0 28px rgba(63, 154, 255, 0.25);
+  z-index: 105;
+}
+
+.footer__add-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 28px rgba(31, 194, 192, 0.6), 0 0 34px rgba(63, 154, 255, 0.45);
+}
+
+.footer__add-btn:active {
+  transform: scale(0.95);
+}
+
+.footer__add-btn--hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.8);
+}
+
+@media (max-width: 480px) {
+  .footer__add-btn {
+    width: 56px;
+    height: 56px;
+    font-size: 1.9rem;
+    bottom: 92px;
+    right: 16px;
+  }
+}

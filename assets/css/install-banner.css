@@ -1,0 +1,132 @@
+/**
+ * Install Banner Styles
+ * Estilos para o banner de instalação PWA
+ */
+
+/* Banner container */
+.install-banner {
+    position: fixed;
+    bottom: calc(88px + env(safe-area-inset-bottom));
+    left: 10px;
+    right: 10px;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    padding: 12px 14px;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(var(--accent-rgb), 0.22);
+    color: var(--text);
+    font-size: var(--fs-sm);
+
+    background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--surface) 92%, transparent) 0%,
+        rgba(var(--accent-rgb), 0.16) 100%
+    );
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+
+    animation: install-banner-slide-up 0.3s ease;
+}
+
+.install-banner--hiding {
+    animation: install-banner-slide-down 0.3s ease forwards;
+}
+
+/* Banner text */
+.install-banner__text {
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+/* Install button */
+.install-banner__button {
+    background: rgba(var(--accent-rgb), 0.22);
+    color: var(--text);
+    border: 1px solid rgba(var(--accent-rgb), 0.28);
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    font-weight: 800;
+    cursor: pointer;
+    font-size: var(--fs-sm);
+    transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.install-banner__button:hover {
+    background: rgba(var(--accent-rgb), 0.28);
+    border-color: rgba(var(--accent-rgb), 0.38);
+}
+
+.install-banner__button:active {
+    transform: scale(0.98);
+}
+
+.install-banner__button:focus-visible {
+    outline: 2px solid rgba(var(--accent-rgb), 0.55);
+    outline-offset: 2px;
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .install-banner {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: linear-gradient(135deg, var(--surface) 0%, rgba(var(--accent-rgb), 0.16) 100%);
+    }
+}
+
+/* Animations */
+@keyframes install-banner-slide-up {
+    from {
+        transform: translateY(120px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes install-banner-slide-down {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(120px);
+        opacity: 0;
+    }
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+    .install-banner {
+        left: 8px;
+        right: 8px;
+        padding: 10px 12px;
+    }
+    
+    .install-banner__button {
+        padding: 8px 12px;
+    }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .install-banner {
+        animation: none;
+    }
+    
+    .install-banner--hiding {
+        animation: none;
+        opacity: 0;
+    }
+    
+    .install-banner__button {
+        transition: none;
+    }
+}

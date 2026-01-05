@@ -1,0 +1,46 @@
+{
+  "name": "controle-financeiro-familiar",
+  "version": "1.0.7",
+  "build": "246",
+  "description": "Aplicação de controle financeiro familiar",
+  "main": "index.html",
+  "scripts": {
+    "dev": "http-server . -p 8000 -c-1",
+    "test:filter": "node assets/tests/run-filter-test.js",
+    "build": "npm run build:capacitor",
+    "build:capacitor": "npm run prepare:assets && npx cap build android --keystorepath ./android.keystore --keystoreAlias controle-financeiro --keystorePassword controle2024 --packageName com.controlefinanceiro.oficial --appName 'Controle Financeiro'",
+    "prepare:assets": "node scripts/prepare-assets.js",
+    "cap:add:android": "npx cap add android",
+    "cap:sync": "npx cap sync",
+    "cap:open:android": "npx cap open android",
+    "cap:run:android": "npx cap run android"
+  },
+  "keywords": [
+    "financeiro",
+    "familiar",
+    "categoria",
+    "beneficio"
+  ],
+  "author": "Necromante96Official",
+  "license": "MIT",
+  "dependencies": {
+    "@capacitor/app": "^5.0.6",
+    "@capacitor/core": "^5.7.0",
+    "@capacitor/splash-screen": "^5.0.6",
+    "@capacitor/status-bar": "^5.0.6",
+    "puppeteer": "^21.11.0"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^5.7.0",
+    "@capacitor/cli": "^5.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Necromante96Official/ControleFinanceiroOficial.git"
+  },
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Necromante96Official/ControleFinanceiroOficial/issues"
+  },
+  "homepage": "https://github.com/Necromante96Official/ControleFinanceiroOficial#readme"
+}

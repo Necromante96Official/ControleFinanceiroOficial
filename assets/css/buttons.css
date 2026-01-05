@@ -1,0 +1,418 @@
+/**
+ * Button Styles
+ * Todos os estilos de botões (primary, secondary, ghost, action buttons)
+ */
+
+button {
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: none;
+  border-radius: var(--radius-sm);
+  touch-action: manipulation;
+}
+
+button:not(:disabled):active {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button:disabled:active {
+  transform: none;
+}
+
+/* Foco acessível (reforço para botões) */
+@supports selector(:focus-visible) {
+  button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.14);
+  }
+}
+
+/* Primary Button */
+.primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  font-size: 0.95rem;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 15px rgba(31, 194, 192, 0.25);
+}
+
+.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(31, 194, 192, 0.4);
+}
+
+.primary:disabled:hover {
+  transform: none;
+  box-shadow: 0 4px 15px rgba(31, 194, 192, 0.25);
+}
+
+.primary:active {
+  transform: translateY(0);
+}
+
+/* Secondary Button */
+.button-secondary {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+  border-radius: var(--radius-md);
+}
+
+/* Botão de filtros do Extrato: indicador de filtros ativos */
+#extrato-filters-open.is-active {
+  background: rgba(var(--accent-rgb), 0.12);
+}
+
+#extrato-filters-open.is-active::after {
+  content: '●';
+  margin-left: 0.5rem;
+  color: var(--accent);
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.button-secondary:hover {
+  background: rgba(31, 194, 192, 0.1);
+}
+
+/* Danger Button */
+.button-danger {
+  padding: 0.9rem 1.5rem;
+  border-radius: var(--radius-md);
+  border: 2px solid rgba(255, 107, 107, 0.5);
+  background: rgba(255, 107, 107, 0.1);
+  color: #ff6b6b;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.button-danger:hover {
+  background: rgba(255, 107, 107, 0.2);
+  border-color: rgba(255, 107, 107, 0.8);
+  box-shadow: 0 8px 20px rgba(255, 107, 107, 0.25);
+  transform: translateY(-2px);
+}
+
+.button-danger:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Danger Button - Horizontal Layout */
+.button-danger--horizontal {
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.button-danger__text {
+  font-weight: 600;
+}
+
+.button-danger__icon {
+  font-size: 1.2rem;
+}
+
+/* Type Option Buttons */
+.type-options {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.type-option {
+  flex: 1;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: transparent;
+  color: var(--text);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.75rem 0;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.type-option:hover {
+  background: rgba(31, 194, 192, 0.08);
+  border-color: rgba(31, 194, 192, 0.3);
+}
+
+.type-option.is-active,
+.type-option.type-option--active {
+  background: rgba(31, 194, 192, 0.12);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 10px rgba(31, 194, 192, 0.2);
+}
+
+/* Card Action Buttons */
+.card__actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(31, 194, 192, 0.2);
+}
+
+.card-action-btn {
+  flex: 1;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: var(--text);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.card-action-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.card-action-btn--edit {
+  color: #1fc2c0;
+  border-color: rgba(31, 194, 192, 0.3);
+}
+
+.card-action-btn--edit:hover {
+  background: rgba(31, 194, 192, 0.1);
+  border-color: rgba(31, 194, 192, 0.6);
+  box-shadow: 0 0 10px rgba(31, 194, 192, 0.2);
+}
+
+.card-action-btn--delete {
+  color: #ff6b6b;
+  border-color: rgba(255, 107, 107, 0.3);
+}
+
+.card-action-btn--delete:hover {
+  background: rgba(255, 107, 107, 0.1);
+  border-color: rgba(255, 107, 107, 0.6);
+  box-shadow: 0 0 10px rgba(255, 107, 107, 0.2);
+}
+
+/* Color & Icon Option Buttons */
+.color-options,
+.icon-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.color-option {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  background: var(--color);
+  position: relative;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-md);
+}
+
+.color-option:hover {
+  transform: scale(1.12);
+  box-shadow: var(--shadow-lg);
+}
+
+.color-option::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: none;
+  background: none;
+}
+
+.color-option.is-active {
+  border-color: var(--color);
+  box-shadow: 0 0 0 4px rgba(31, 194, 192, 0.3), var(--shadow-lg);
+}
+
+.icon-option {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  font-size: 1.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.icon-option:hover {
+  background: rgba(31, 194, 192, 0.1);
+  border-color: rgba(31, 194, 192, 0.4);
+  transform: scale(1.1);
+}
+
+.icon-option.is-active {
+  border-color: #1fc2c0;
+  background: rgba(31, 194, 192, 0.2);
+  box-shadow: 0 0 12px rgba(31, 194, 192, 0.5);
+  transform: scale(1.05);
+}
+
+/* Modal Buttons */
+.modal-btn {
+  padding: 0.9rem 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: left;
+}
+
+.modal-btn--danger {
+  background: rgba(255, 107, 107, 0.15);
+  border-color: rgba(255, 107, 107, 0.4);
+  color: #ff6b6b;
+}
+
+.modal-btn--danger:hover {
+  background: rgba(255, 107, 107, 0.25);
+  border-color: rgba(255, 107, 107, 0.6);
+  box-shadow: 0 0 12px rgba(255, 107, 107, 0.3);
+}
+
+.modal-btn--warning {
+  background: rgba(255, 193, 7, 0.12);
+  border-color: rgba(255, 193, 7, 0.3);
+  color: #ffc107;
+}
+
+.modal-btn--warning:hover {
+  background: rgba(255, 193, 7, 0.2);
+  border-color: rgba(255, 193, 7, 0.5);
+  box-shadow: 0 0 12px rgba(255, 193, 7, 0.2);
+}
+
+/* Button Primary - Config Page */
+.button-primary {
+  padding: 0.9rem 1.5rem;
+  border-radius: var(--radius-md);
+  border: 2px solid rgba(31, 194, 192, 0.5);
+  background: rgba(31, 194, 192, 0.15);
+  color: var(--primary);
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.button-primary:hover {
+  background: rgba(31, 194, 192, 0.25);
+  border-color: rgba(31, 194, 192, 0.8);
+  box-shadow: 0 8px 20px rgba(31, 194, 192, 0.25);
+  transform: translateY(-2px);
+}
+
+.button-primary--horizontal {
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.button-primary__icon {
+  font-size: 1.2rem;
+}
+
+.button-primary__text {
+  font-weight: 600;
+}
+
+/* Button Secondary - Config Page */
+.button-secondary--horizontal {
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.button-secondary__icon {
+  font-size: 1.2rem;
+}
+
+.button-secondary__text {
+  font-weight: 600;
+}
+
+/* Config Page Styles */
+.config-section {
+  margin-bottom: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  width: 100%;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.config-section__title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 0.75rem 0;
+}
+
+.config-section--danger {
+  border-color: rgba(255, 107, 107, 0.2);
+  background: rgba(255, 107, 107, 0.03);
+}
+
+.config-section--danger .config-section__title {
+  color: #ff6b6b;
+}
+
+.config-buttons-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.config-buttons-group button,
+.config-section .button-danger {
+  width: 100%;
+}

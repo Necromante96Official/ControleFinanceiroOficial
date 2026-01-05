@@ -1,0 +1,273 @@
+/**
+ * Correções Gerais e Otimizações
+ * Melhorias de acessibilidade, performance e UX
+ */
+
+/* ========================================================================
+   1. ACESSIBILIDADE E SEMÂNTICA
+   ======================================================================== */
+
+/* Melhorar foco visual para navegação por teclado */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #1fc2c0;
+  outline-offset: 2px;
+}
+
+/* Suporte a high contrast mode */
+@media (prefers-contrast: more) {
+  .benefit-card,
+  .category-card,
+  .stat-card {
+    border-width: 2px;
+    box-shadow: none;
+  }
+  
+  button {
+    border-width: 2px;
+  }
+}
+
+/* Suporte a reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ========================================================================
+   2. MELHORIAS DE PERFORMANCE
+   ======================================================================== */
+
+/* Otimizar renderização de cards */
+.benefit-card,
+.category-card,
+.stat-card {
+  contain: layout style paint;
+  will-change: transform;
+}
+
+/* Evitar layout shift em imagens */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ========================================================================
+   3. CORREÇÕES DE TOUCH TARGETS
+   ======================================================================== */
+
+/* Garantir área clicável mínima de 44x44px (recomendação Apple) */
+button,
+.category-card,
+.benefit-card,
+.footer__link {
+  min-height: 44px;
+  min-width: 44px;
+  padding: max(0.5rem, (44px - 1em) / 2);
+}
+
+/* ========================================================================
+   4. MELHORIAS DE LEGIBILIDADE
+   ======================================================================== */
+
+/* Reduzir espaçamento entre letras em telas muito pequenas */
+@media (max-width: 320px) {
+  .stat-label,
+  .benefit-card__type,
+  .category-card__type {
+    letter-spacing: 0.05em;
+  }
+}
+
+/* Garantir linha visível em torno de texto */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================================================
+   5. CORREÇÕES DE RESPONSIVIDADE
+   ======================================================================== */
+
+/* Flexbox wrap para itens que não cabem */
+.type-options,
+.color-options,
+.icon-options {
+  flex-wrap: wrap;
+}
+
+/* Evitar overflow em inputs */
+input[type="text"],
+input[type="number"],
+select {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* ========================================================================
+   6. CORREÇÕES DE FORMULÁRIOS
+   ======================================================================== */
+
+/* Remover border padrão de inputs em iOS */
+input {
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: var(--radius-md);
+}
+
+/* Evitar zoom automático em input no mobile */
+@media (max-width: 600px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important; /* Evita zoom em iOS */
+  }
+}
+
+/* ========================================================================
+   7. CORREÇÕES DE SCROLL
+   ======================================================================== */
+
+/* Smooth scroll nos navegadores que suportam */
+@supports (scroll-behavior: smooth) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Evitar scroll horizontal não intencional */
+body,
+html {
+  overflow-x: hidden;
+}
+
+/* ========================================================================
+   8. CORREÇÕES DE CORES E CONTRASTE
+   ======================================================================== */
+
+/* Melhorar legibilidade em modo claro (se ativado) */
+@media (prefers-color-scheme: light) {
+  .stat-label,
+  .benefit-card__label {
+    color: #555;
+  }
+}
+
+/* ========================================================================
+   9. OTIMIZAÇÕES DE IMAGENS
+   ======================================================================== */
+
+/* Lazy loading para imagens em background */
+img[loading="lazy"] {
+  background: linear-gradient(45deg, #f0f0f0 25%, #e0e0e0 25%);
+  background-size: 20px 20px;
+}
+
+/* ========================================================================
+   10. CORREÇÕES DE PWA
+   ======================================================================== */
+
+/* Garantir que notches/safe areas sejam respeitadas */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(10px, env(safe-area-inset-left));
+    padding-right: max(10px, env(safe-area-inset-right));
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Evitar seleção acidental de texto */
+button,
+.card,
+.stat-card {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ========================================================================
+   11. CORREÇÕES ESPECÍFICAS DE LAYOUT
+   ======================================================================== */
+
+/* Garantir que benefits-grid sempre usa flex layout */
+.benefits-grid {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+/* Adicionar pseudo-classe para valid/invalid de form */
+input:valid {
+  border-color: #6bcb77;
+}
+
+input:invalid {
+  border-color: #ff6b6b;
+}
+
+/* ========================================================================
+   12. ANIMAÇÕES SEGURAS
+   ======================================================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Aplicar animações iniciais */
+.benefit-card,
+.category-card {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* ========================================================================
+   13. CORREÇÕES DE IMPRESSÃO
+   ======================================================================== */
+
+@media print {
+  .footer,
+  #add-btn,
+  .form-sheet,
+  .modal {
+    display: none;
+  }
+
+  .benefit-card,
+  .category-card {
+    page-break-inside: avoid;
+    border: 1px solid #999;
+  }
+}

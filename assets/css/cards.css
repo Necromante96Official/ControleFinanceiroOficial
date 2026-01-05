@@ -1,0 +1,2195 @@
+/**
+ * Card Styles
+ * Estilos para category-card, benefit-card e stat-card
+ */
+
+.stat-card {
+  background: rgba(10, 15, 18, 0.9);
+  border: 1px solid rgba(var(--accent-rgb), 0.1);
+  border-radius: var(--radius-lg);
+  padding: 0.45rem 0.55rem;
+  text-align: center;
+  min-height: 64px;
+  box-shadow: var(--shadow-lg);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.stat-card:hover {
+  border-color: rgba(31, 194, 192, 0.55);
+  transform: translateY(-3px);
+}
+
+.stat-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-card--alert {
+  background: linear-gradient(135deg, rgba(64, 8, 16, 0.9), rgba(21, 3, 6, 0.95));
+  border-color: rgba(255, 107, 107, 0.4);
+  box-shadow: 0 10px 25px rgba(255, 107, 107, 0.15);
+}
+
+.stat-card--alert .stat-label {
+  color: #ffb4b4;
+}
+
+.stat-label {
+  font-size: var(--fs-stat-label);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.stat-value {
+  font-size: var(--fs-stat-value);
+  font-weight: 700;
+  color: #1fc2c0;
+  margin: 0;
+}
+
+.stat-value--alert {
+  color: #ff6b6b;
+}
+
+/* ========================================
+   STATS STRIP - Resumo em faixa (sem cards)
+   ======================================== */
+.stats-strip {
+  /* Container único, mantendo o mesmo “peso visual” do tema sem criar cards individuais */
+  /* Fallback (flex) */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 0;
+
+  /* Preferência (grid): garante 3 colunas sempre lado a lado */
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  background: rgba(10, 15, 18, 0.9);
+  border: 1px solid rgba(var(--accent-rgb), 0.1);
+  border-radius: var(--radius-lg);
+  /* Glow sutil no bloco inteiro (sem inventar paleta) */
+  box-shadow:
+    0 0 0 1px rgba(var(--accent-rgb), 0.12),
+    0 0 22px rgba(var(--accent-rgb), 0.18),
+    var(--shadow-lg);
+  overflow: hidden;
+}
+
+.stats-strip__item {
+  /* Cada item ocupa 1/3 e pode encolher sem quebrar */
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0.55rem 0.65rem;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Glow por item (melhora leitura e “peso” sem virar card separado) */
+.stats-strip__item {
+  box-shadow: inset 0 0 0 1px rgba(var(--accent-rgb), 0.08);
+}
+
+.stats-strip__item:hover {
+  background: rgba(var(--accent-rgb), 0.05);
+}
+
+.stats-strip__item:active {
+  background: rgba(var(--accent-rgb), 0.08);
+}
+
+.stats-strip__item + .stats-strip__item {
+  border-left: 1px solid var(--border-divider);
+}
+
+.stats-strip__label {
+  font-size: var(--fs-stat-label);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stats-strip__value {
+  font-size: var(--fs-stat-value);
+  font-weight: 700;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
+  /* Glow leve no texto para destacar valores */
+  text-shadow: 0 0 14px rgba(var(--accent-rgb), 0.22);
+}
+
+/* Cores semânticas (reaproveita o padrão do projeto) */
+.stats-strip__value--income {
+  /* Entradas: verde (mesmo padrão do “Disponível” em Crédito) */
+  color: var(--color-green);
+}
+
+.stats-strip__value--expense {
+  /* Saídas: vermelho */
+  color: var(--color-red);
+}
+
+.stats-strip__value--balance {
+  /* Saldo: branco do tema (neutro) */
+  color: var(--text);
+}
+
+.stats-strip__value--limit {
+  /* Limite total: azul (mesmo padrão de destaque do total) */
+  color: var(--color-blue);
+}
+
+.stats-strip__value--available {
+  /* Disponível: verde */
+  color: var(--color-green);
+}
+
+.stats-strip__value--due {
+  /* A pagar: vermelho */
+  color: var(--color-red);
+}
+
+/* ========================================
+   CATEGORY CARDS - Layout Elegante
+   ======================================== */
+.category-card {
+  position: relative;
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(13, 18, 21, 0.95), rgba(8, 11, 13, 0.98));
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  border: 1px solid var(--border-card);
+  box-shadow: var(--shadow-card);
+}
+
+.category-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--category-color, #1fc2c0);
+  opacity: 0.8;
+  transition: width 0.3s ease;
+}
+
+.category-card:hover {
+  transform: translateX(4px);
+  border-color: var(--border-card-hover);
+  box-shadow: var(--shadow-card-hover-soft);
+}
+
+.category-card:hover::before {
+  width: 6px;
+}
+
+.category-card__icon-wrapper {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #fff;
+  box-shadow: var(--shadow-icon);
+  background: var(--category-color, #1fc2c0);
+}
+
+.category-card__content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.category-card__name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f5f7fa;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.category-card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  width: fit-content;
+  font-weight: 600;
+}
+
+.category-card__badge--income {
+  background: rgba(106, 246, 218, 0.15);
+  color: #6af6da;
+  border: 1px solid rgba(106, 246, 218, 0.3);
+}
+
+.category-card__badge--income::before {
+  content: "↗";
+}
+
+.category-card__badge--expense {
+  background: rgba(255, 159, 172, 0.15);
+  color: #ff9fac;
+  border: 1px solid rgba(255, 159, 172, 0.3);
+}
+
+.category-card__badge--expense::before {
+  content: "↘";
+}
+
+.category-card__actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.category-card__btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.category-card__btn:hover {
+  transform: scale(1.1);
+}
+
+.category-card__btn--edit {
+  color: #4d96ff;
+}
+
+.category-card__btn--edit:hover {
+  background: rgba(77, 150, 255, 0.2);
+}
+
+.category-card__btn--delete {
+  color: #ff9fac;
+}
+
+.category-card__btn--delete:hover {
+  background: rgba(255, 159, 172, 0.2);
+}
+
+/* ========================================
+   CATEGORY SECTIONS - Organização por Tipo
+   ======================================== */
+.category-section {
+  margin-bottom: 1rem;
+}
+
+.category-section:last-child {
+  margin-bottom: 0;
+}
+
+.category-section__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(20, 25, 40, 0.9), rgba(12, 16, 28, 0.95));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.category-section__header--income,
+.category-section--income .category-section__header {
+  border-left: 3px solid #6af6da;
+  background: linear-gradient(135deg, rgba(106, 246, 218, 0.08), rgba(12, 16, 28, 0.95));
+}
+
+.category-section__header--expense,
+.category-section--expense .category-section__header {
+  border-left: 3px solid #ff9fac;
+  background: linear-gradient(135deg, rgba(255, 159, 172, 0.08), rgba(12, 16, 28, 0.95));
+}
+
+.category-section__icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.category-section__title {
+  flex: 1;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #f5f7fa;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.category-section__header--income .category-section__title,
+.category-section--income .category-section__title {
+  color: #6af6da;
+}
+
+.category-section__header--expense .category-section__title,
+.category-section--expense .category-section__title {
+  color: #ff9fac;
+}
+
+.category-section__count {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.4rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--muted);
+}
+
+.category-section__header--income .category-section__count,
+.category-section--income .category-section__count {
+  background: rgba(106, 246, 218, 0.15);
+  color: #6af6da;
+}
+
+.category-section__header--expense .category-section__count,
+.category-section--expense .category-section__count {
+  background: rgba(255, 159, 172, 0.15);
+  color: #ff9fac;
+}
+
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.category-section__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.category-list--empty {
+  padding: 1rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-style: italic;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
+  border: 1px dashed var(--border-dashed);
+}
+
+/* ========================================
+   CATEGORY ITEM - Formato Compacto em Linha
+   ======================================== */
+.category-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.625rem;
+  background: rgba(15, 20, 35, 0.85);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--category-color, #1fc2c0);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.category-item:hover {
+  background: rgba(31, 194, 192, 0.08);
+  border-color: rgba(var(--accent-rgb), 0.25);
+  border-left-color: var(--category-color, #1fc2c0);
+}
+
+.category-item:active {
+  transform: scale(0.99);
+}
+
+.category-item__icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  color: #fff;
+  box-shadow: var(--shadow-icon-xs);
+}
+
+.category-item__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.category-item__name {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #f5f7fa;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.category-item__actions {
+  display: flex;
+  gap: 0.25rem;
+  opacity: 0.5;
+  transition: opacity 0.15s ease;
+}
+
+.category-item:hover .category-item__actions {
+  opacity: 1;
+}
+
+.category-item__btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 5px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  background: rgba(255, 255, 255, 0.05);
+  color: #4d96ff;
+}
+
+.category-item__btn:hover {
+  transform: scale(1.1);
+  background: rgba(77, 150, 255, 0.2);
+}
+
+.category-item__btn--delete {
+  color: #ff9fac;
+}
+
+.category-item__btn--delete:hover {
+  background: rgba(255, 159, 172, 0.2);
+}
+
+/* ========================================
+   BENEFIT CARDS - Layout com Progress
+   ======================================== */
+.benefit-card {
+  position: relative;
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(13, 18, 21, 0.95), rgba(8, 11, 13, 0.98));
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  border: 1px solid var(--border-card);
+  box-shadow: var(--shadow-card);
+}
+
+.benefit-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--benefit-color, #1fc2c0);
+}
+
+.benefit-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-card-hover);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.benefit-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.benefit-card__icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background: rgba(31, 194, 192, 0.15);
+  box-shadow: var(--shadow-icon-soft);
+}
+
+.benefit-card__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.benefit-card__name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f5f7fa;
+  margin: 0 0 0.25rem;
+}
+
+.benefit-card__type {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8b92a4;
+  background: rgba(139, 146, 164, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.benefit-card__values {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  padding: 0.6rem 0;
+  border-top: 1px solid var(--border-divider);
+  border-bottom: 1px solid var(--border-divider);
+}
+
+.benefit-card__value-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.benefit-card__label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8b92a4;
+  font-weight: 600;
+}
+
+.benefit-card__amount {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #f5f7fa;
+  font-family: "Courier New", monospace;
+}
+
+.benefit-card__amount--available {
+  color: #6bcb77;
+}
+
+.benefit-card__progress {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: -0.15rem;
+}
+
+.benefit-card__progress-track {
+  flex: 1;
+  height: 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.benefit-card__progress-fill {
+  position: absolute;
+  inset: 0;
+  width: 0;
+  background: linear-gradient(90deg, var(--benefit-color, #1fc2c0), #4d96ff);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+  box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.35);
+}
+
+.benefit-card__progress-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #cdd5f5;
+  min-width: 70px;
+  text-align: right;
+}
+
+.benefit-card__footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+.benefit-card__btn {
+  padding: 0.55rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-divider-strong);
+  background: rgba(255, 255, 255, 0.03);
+  color: #f5f7fa;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.benefit-card__btn:hover {
+  transform: translateY(-2px);
+}
+
+.benefit-card__btn--edit {
+  border-color: rgba(77, 150, 255, 0.3);
+  color: #4d96ff;
+}
+
+.benefit-card__btn--edit:hover {
+  background: rgba(77, 150, 255, 0.15);
+}
+
+.benefit-card__btn--delete {
+  border-color: rgba(255, 159, 172, 0.3);
+  color: #ff9fac;
+}
+
+.benefit-card__btn--delete:hover {
+  background: rgba(255, 159, 172, 0.15);
+}
+
+/* ========================================
+   CREDIT CARDS - Layout para Cartões de Crédito
+   ======================================== */
+.credit-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0 0 0.85rem;
+}
+
+.credit-stats {
+  /* Resumo do crédito em um único bloco (stats-strip) */
+  display: block;
+  margin-bottom: 0.85rem;
+}
+
+/* ========================================
+   DEBIT CARDS - Layout para Contas de Débito
+   ======================================== */
+.debit-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0 0 0.85rem;
+}
+
+.debit-stats {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.9rem;
+}
+
+.debit-stats .stat-card--full {
+  width: 100%;
+  max-width: 300px;
+}
+
+.credit-card {
+  position: relative;
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(13, 18, 21, 0.95), rgba(8, 11, 13, 0.98));
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  border: 1px solid rgba(31, 194, 192, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.credit-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--credit-color, #ffd93d);
+}
+
+.credit-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 217, 61, 0.3);
+  box-shadow: 0 12px 32px rgba(255, 217, 61, 0.15);
+}
+
+.credit-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.credit-card__icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background: rgba(255, 217, 61, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.credit-card__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.credit-card__name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f5f7fa;
+  margin: 0 0 0.25rem;
+}
+
+.credit-card__type {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ffd93d;
+  background: rgba(255, 217, 61, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.credit-card__due-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  animation: pulse 2s infinite;
+}
+
+.credit-card__due-badge--today {
+  background: rgba(255, 77, 77, 0.2);
+  color: #ff4d4d;
+  border: 1px solid rgba(255, 77, 77, 0.4);
+}
+
+.credit-card__due-badge--urgent {
+  background: rgba(255, 165, 0, 0.2);
+  color: #ffa500;
+  border: 1px solid rgba(255, 165, 0, 0.4);
+}
+
+.credit-card__due-badge--warning {
+  background: rgba(255, 217, 61, 0.2);
+  color: #ffd93d;
+  border: 1px solid rgba(255, 217, 61, 0.4);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.credit-card__values {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  padding: 0.6rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.credit-card__value-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.credit-card__label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8b92a4;
+  font-weight: 600;
+}
+
+.credit-card__amount {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #f5f7fa;
+  font-family: "Courier New", monospace;
+}
+
+.credit-card__amount--available {
+  color: #6bcb77;
+}
+
+.credit-card__progress {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.2rem 0;
+}
+
+.credit-card__progress-track {
+  flex: 1;
+  height: 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.credit-card__progress-fill {
+  position: absolute;
+  inset: 0;
+  width: 0;
+  background: linear-gradient(90deg, rgba(255, 179, 71, 0.95), rgba(255, 89, 94, 0.98));
+  border-radius: 999px;
+  transition: width 0.4s ease;
+  box-shadow: 0 4px 12px rgba(255, 89, 94, 0.25);
+}
+
+.credit-card__progress-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ffdcd8;
+  min-width: 70px;
+  text-align: right;
+}
+  border-radius: 6px;
+}
+
+.credit-card__due-label {
+  font-size: 0.8rem;
+  color: #8b92a4;
+  font-weight: 500;
+}
+
+/* Status do ciclo de fatura */
+.credit-card__due-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0.5rem 0;
+}
+
+.credit-card__cycle-status {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  width: fit-content;
+}
+
+.credit-card__cycle--paid {
+  background: rgba(107, 203, 119, 0.15);
+  color: #6bcb77;
+  border: 1px solid rgba(107, 203, 119, 0.3);
+}
+
+.credit-card__cycle--pending {
+  background: rgba(255, 193, 7, 0.15);
+  color: #ffc107;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.credit-card__cycle--next {
+  background: rgba(77, 150, 255, 0.15);
+  color: #4d96ff;
+  border: 1px solid rgba(77, 150, 255, 0.3);
+}
+
+.credit-card__cycle--clear {
+  background: rgba(139, 146, 164, 0.15);
+  color: #8b92a4;
+  border: 1px solid rgba(139, 146, 164, 0.3);
+}
+
+/* Botão desabilitado */
+.credit-card__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.credit-card__footer {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.6rem;
+}
+
+.credit-card__btn {
+  padding: 0.55rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: #f5f7fa;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.credit-card__btn:hover {
+  transform: translateY(-2px);
+}
+
+.credit-card__btn--payment {
+  border-color: rgba(107, 203, 119, 0.3);
+  color: #6bcb77;
+}
+
+.credit-card__btn--payment:hover {
+  background: rgba(107, 203, 119, 0.15);
+}
+
+.credit-card__btn--edit {
+  width: 40px;
+  border-color: rgba(77, 150, 255, 0.3);
+  color: #4d96ff;
+}
+
+.credit-card__btn--edit:hover {
+  background: rgba(77, 150, 255, 0.15);
+}
+
+.credit-card__btn--delete {
+  width: 40px;
+  border-color: rgba(255, 159, 172, 0.3);
+  color: #ff9fac;
+}
+
+.credit-card__btn--delete:hover {
+  background: rgba(255, 159, 172, 0.15);
+}
+
+/* Stat card especial para vencimento */
+.stat-card--due {
+  background: rgba(255, 217, 61, 0.05);
+  border-color: rgba(255, 217, 61, 0.2);
+}
+
+.stat-card--due .stat-value {
+  color: #ff9fac;
+}
+
+.stat-label--small {
+  font-size: 0.65rem;
+  margin-top: 0.25rem;
+  color: #ffd93d;
+}
+
+/* ========================================
+   DEBIT CARDS - Conta Corrente/Dinheiro
+   ======================================== */
+.debit-card {
+  position: relative;
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(13, 18, 21, 0.95), rgba(8, 11, 13, 0.98));
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  border: 1px solid rgba(31, 194, 192, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.debit-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--debit-color, #6bcb77);
+}
+
+.debit-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(107, 203, 119, 0.3);
+  box-shadow: 0 12px 32px rgba(107, 203, 119, 0.15);
+}
+
+.debit-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.debit-card__icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  background: rgba(107, 203, 119, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.debit-card__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.debit-card__name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f5f7fa;
+  margin: 0 0 0.25rem;
+}
+
+.debit-card__type {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6bcb77;
+  background: rgba(107, 203, 119, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.debit-card__values {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.45rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.debit-card__value-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.debit-card__label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8b92a4;
+  font-weight: 600;
+}
+
+.debit-card__amount {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f5f7fa;
+  font-family: "Courier New", monospace;
+}
+
+.debit-card__amount--balance {
+  color: #6bcb77;
+}
+
+.debit-card__footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.debit-card__btn {
+  flex: 1;
+  min-width: 0;
+  padding: 0.45rem 0.35rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: #f5f7fa;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.debit-card__btn:hover {
+  transform: translateY(-2px);
+}
+
+.debit-card__btn--edit {
+  border-color: rgba(77, 150, 255, 0.3);
+  color: #4d96ff;
+}
+
+.debit-card__btn--edit:hover {
+  background: rgba(77, 150, 255, 0.15);
+}
+
+.debit-card__btn--delete {
+  border-color: rgba(255, 159, 172, 0.3);
+  color: #ff9fac;
+}
+
+.debit-card__btn--delete:hover {
+  background: rgba(255, 159, 172, 0.15);
+}
+
+/* ========================================
+   EXTRATO - Lançamentos
+   ======================================== */
+.extrato-stats {
+  /* Resumo do extrato em um único bloco (stats-strip) */
+  display: block;
+  margin-bottom: 0.85rem;
+}
+
+.stat-card--income {
+  /* Entradas */
+  border-color: rgba(77, 150, 255, 0.3);
+}
+
+.stat-card--expense {
+  border-color: rgba(255, 77, 77, 0.3);
+}
+
+/* Destaques mais vibrantes (limites e crédito) */
+.stat-card--limit {
+  border-color: rgba(255, 217, 61, 0.35);
+}
+
+.stat-card--available {
+  border-color: rgba(31, 194, 192, 0.28);
+}
+
+.stat-card--due {
+  border-color: rgba(255, 77, 77, 0.28);
+}
+
+.stat-value--income {
+  /* Entradas */
+  color: #4d96ff !important;
+}
+
+.stat-value--expense {
+  color: #ff4d4d !important;
+}
+
+.stat-value--limit {
+  color: #ffd93d !important;
+}
+
+.stat-value--available {
+  color: #1fc2c0 !important;
+}
+
+.stat-value--due {
+  color: #ff4d4d !important;
+}
+
+.extrato-filters {
+  margin-bottom: 0.85rem;
+  display: grid;
+  gap: 0.6rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+/* O botão de filtros foi movido para o header do painel */
+
+.extrato-filters--modal {
+  margin-bottom: 0;
+  grid-template-columns: 1fr;
+}
+
+.extrato-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.extrato-filter--hidden {
+  display: none !important;
+}
+
+.extrato-filter__label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8b92a4;
+}
+
+.extrato-filter__control {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(8, 12, 24, 0.92);
+  color: #f5f7fa;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  /* Melhora toque/legibilidade sem alterar layout estrutural */
+  min-height: 44px;
+  line-height: 1.2;
+}
+
+select.extrato-filter__control {
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238b92a4' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.95rem center;
+  background-size: 12px 12px;
+  /* Reserva espaço para o ícone do select (evita texto sobrepor a seta) */
+  padding-right: 2.4rem;
+}
+
+.extrato-filter__control:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.extrato-filter__control:focus {
+  outline: none;
+  border-color: rgba(31, 194, 192, 0.5);
+  box-shadow: 0 0 0 1px rgba(31, 194, 192, 0.15);
+}
+
+@supports selector(:focus-visible) {
+  .extrato-filter__control:focus {
+    box-shadow: none;
+  }
+
+  .extrato-filter__control:focus-visible {
+    outline: none;
+    border-color: rgba(31, 194, 192, 0.55);
+    box-shadow: 0 0 0 4px rgba(31, 194, 192, 0.14);
+  }
+}
+
+.extrato-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  /*
+   * Extrato: o "respiro" inferior já é garantido pelo padding da .screen
+   * (considerando o footer fixo). Isso evita sobrar espaço extra no final.
+   */
+  padding-bottom: 0;
+}
+
+/* ========================================
+   TRANSACTION CARDS - Layout Lista Vertical
+   Baseado no estilo elegante do category-card
+   ======================================== */
+.transaction-card {
+  position: relative;
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(13, 18, 21, 0.95), rgba(8, 11, 13, 0.98));
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  border: 1px solid rgba(31, 194, 192, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Garantia: nunca renderizar “segunda barrinha” (legado) */
+.transaction-card::after {
+  content: none !important;
+  display: none !important;
+}
+
+.transaction-card--entrada::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: #6bcb77;
+  opacity: 0.9;
+  transition: width 0.3s ease;
+}
+
+.transaction-card--saida::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: #ff6b6b;
+  opacity: 0.9;
+  transition: width 0.3s ease;
+}
+
+/* Transferência: apenas 1 barrinha branca */
+.transaction-card--transferencia::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--color-white);
+  opacity: 0.9;
+  transition: width 0.3s ease;
+}
+
+.transaction-card:hover {
+  transform: translateX(4px);
+  border-color: rgba(31, 194, 192, 0.3);
+  box-shadow: 0 8px 24px rgba(31, 194, 192, 0.15);
+}
+
+.transaction-card:hover::before {
+  width: 6px;
+}
+
+.transaction-card__icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.transaction-card__info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.transaction-card__name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f5f7fa;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.transaction-card__source {
+  font-size: 0.7rem;
+  color: #8b92a4;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.transaction-card__category {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  width: fit-content;
+  font-weight: 600;
+  color: #1fc2c0;
+  background: rgba(31, 194, 192, 0.12);
+  border: 1px solid rgba(31, 194, 192, 0.25);
+}
+
+.transaction-card__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+
+.transaction-card__value-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.15rem;
+}
+
+.transaction-card__value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: "Courier New", monospace;
+}
+
+.transaction-card__value--income {
+  color: #6bcb77;
+}
+
+.transaction-card__value--expense {
+  color: #ff6b6b;
+}
+
+.transaction-card__value--transfer {
+  color: #1fc2c0;
+}
+
+.transaction-card__date {
+  font-size: 0.7rem;
+  color: #8b92a4;
+}
+
+.transaction-card__actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.transaction-card__btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.transaction-card__btn:hover {
+  transform: scale(1.1);
+}
+
+.transaction-card__btn--edit {
+  color: #4d96ff;
+}
+
+.transaction-card__btn--edit:hover {
+  background: rgba(77, 150, 255, 0.2);
+}
+
+.transaction-card__btn--delete {
+  color: #ff9fac;
+}
+
+.transaction-card__btn--delete:hover {
+  background: rgba(255, 159, 172, 0.2);
+}
+
+/* Badge de transação vinculada */
+.transaction-card__linked-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  margin-right: 0.3rem;
+  opacity: 0.8;
+  vertical-align: middle;
+}
+
+.transaction-card--linked {
+  border-left: 3px solid rgba(31, 194, 192, 0.5);
+}
+
+.transaction-card--linked:hover {
+  border-left-color: rgba(31, 194, 192, 0.8);
+}
+
+/* Footer removido - botões agora ficam na lateral */
+.transaction-card__footer {
+  display: none;
+}
+
+/* Categoria Options para o Formulário */
+.category-options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Compact list variant for extrato (apenas nome / valor / ações)
+   Renderiza transações em uma lista vertical compacta com separador cinzento entre itens
+   Clique no item (não nos botões) abre painel flutuante com detalhes completos */
+.transaction-card--compact {
+  border-radius: 0;
+  padding: 0.55rem 0.9rem;
+  gap: 0.75rem;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.transaction-card--compact:hover {
+  transform: none;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.transaction-card--compact .transaction-card__icon {
+  display: none;
+}
+
+.transaction-card--compact .transaction-card__info {
+  gap: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Linha principal (nome + tipo) */
+.transaction-card__name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+}
+
+.transaction-card__subrow {
+  margin-top: 0.2rem;
+}
+
+/* Meio (texto) abaixo do nome na lista */
+.transaction-card__method {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8b92a4;
+}
+
+.transaction-card__method--credito,
+
+.transaction-card__method--credito {
+  color: var(--color-yellow);
+}
+
+.transaction-card__method--debito {
+  color: var(--color-blue);
+}
+
+.transaction-card__method--beneficio {
+  color: var(--color-green);
+}
+
+.transaction-card__method--transferencia {
+  color: var(--color-white);
+}
+
+.transaction-card--compact .transaction-card__source,
+.transaction-card--compact .transaction-card__category,
+.transaction-card--compact .transaction-card__date {
+  display: none;
+}
+
+/* Tipo do lançamento na lista (débito/crédito/benefício) */
+.transaction-card__type {
+  flex-shrink: 0;
+  font-size: 0.65rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #1fc2c0;
+  background: rgba(31, 194, 192, 0.12);
+  border: 1px solid rgba(31, 194, 192, 0.22);
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+}
+
+/* Cores do tipo (reaproveita paleta já usada no app) */
+.transaction-card__type--debito {
+  color: #ffd93d;
+  background: rgba(255, 217, 61, 0.14);
+  border-color: rgba(255, 217, 61, 0.28);
+}
+
+.transaction-card__type--credito {
+  color: #4d96ff;
+  background: rgba(77, 150, 255, 0.14);
+  border-color: rgba(77, 150, 255, 0.28);
+}
+
+.transaction-card__type--beneficio {
+  color: #6bcb77;
+  background: rgba(107, 203, 119, 0.14);
+  border-color: rgba(107, 203, 119, 0.28);
+}
+
+/* Mini-selo para transferências (sem poluir a linha principal) */
+.transaction-card__mini-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8b92a4;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.12rem 0.4rem;
+  border-radius: 999px;
+}
+
+.transaction-card--compact .transaction-card__name {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #f5f7fa;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  min-width: 0;
+}
+
+.transaction-card--compact .transaction-card__value {
+  font-size: 1.02rem;
+  font-weight: 700;
+  font-family: "Courier New", monospace;
+  flex-shrink: 0;
+}
+
+.transaction-card--compact .transaction-card__right {
+  gap: 0.25rem;
+}
+
+.transaction-card--compact .transaction-card__actions {
+  display: none;
+}
+
+.transaction-card--compact .transaction-card__btn {
+  width: 32px;
+  height: 32px;
+  font-size: 0.85rem;
+  padding: 0;
+}
+
+/* Transaction detail floating pane
+   Painel flutuante que exibe informações completas quando um item é clicado
+   Mostra: ícone, nome, origem, categoria, data, valor, botões de ação */
+.transaction-detail-overlay {
+  background: rgba(0, 0, 0, 0.6); /* Mais escuro para destacar painel centralizado */
+  animation: fadeIn 0.3s ease-in-out;
+  backdrop-filter: blur(2px); /* Leve desfoque no fundo */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.transaction-detail-pane {
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 64px);
+  border-radius: 16px;
+  padding: 1.25rem;
+  background: linear-gradient(145deg, rgba(13, 18, 21, 0.98), rgba(8, 11, 13, 0.99));
+  border: 1px solid rgba(31, 194, 192, 0.2);
+  box-shadow: 
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    0 16px 48px rgba(0, 0, 0, 0.5),
+    0 0 32px rgba(31, 194, 192, 0.15);
+  color: #f5f7fa;
+  animation: slideInCenter 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+  overflow-y: auto;
+}
+
+/* Animação centralizada (não mais lateral) */
+@keyframes slideInCenter {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.transaction-detail-pane__header {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.transaction-detail-pane__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  background: var(--tx-color, #1fc2c0);
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.transaction-detail-pane__title {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.transaction-detail-pane__name {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #f5f7fa;
+  word-break: break-word;
+}
+
+.transaction-detail-pane__meta {
+  font-size: 0.8rem;
+  color: #8b92a4;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.transaction-detail-pane__category {
+  font-size: 0.85rem;
+  color: #8b92a4;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  word-break: break-word;
+}
+
+.transaction-detail-pane__divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 0;
+  margin: 0.35rem 0;
+}
+
+.transaction-detail-pane__close {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #8b92a4;
+  transition: color 0.2s ease;
+  padding: 0.25rem;
+  flex-shrink: 0;
+}
+
+.transaction-detail-pane__close:hover {
+  color: #f5f7fa;
+}
+
+.transaction-detail-pane__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+/* Bloco superior do detalhe mais horizontal */
+.transaction-detail-pane__summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+  align-items: stretch;
+}
+
+.transaction-detail-pane__summary-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.65rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.transaction-detail-pane__kv {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  color: #c9cdd6;
+}
+
+.transaction-detail-pane__kv-label {
+  color: #8b92a4;
+  font-weight: 600;
+}
+
+.transaction-detail-pane__kv-value {
+  text-align: right;
+  word-break: break-word;
+}
+
+.transaction-detail-pane__value {
+  font-size: 1.4rem;
+  font-weight: 800;
+  font-family: "Courier New", monospace;
+  letter-spacing: 0.02em;
+  padding: 0.75rem;
+  border-radius: 10px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+@media (max-width: 520px) {
+  .transaction-detail-pane__summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+.transaction-detail-pane__value.income {
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.09);
+  border: 1px solid rgba(74, 222, 128, 0.22);
+}
+
+.transaction-detail-pane__value.expense {
+  color: #ff4d4d;
+  background: rgba(255, 77, 77, 0.09);
+  border: 1px solid rgba(255, 77, 77, 0.22);
+}
+
+.transaction-detail-pane__value.transfer {
+  color: #1fc2c0;
+  background: rgba(31, 194, 192, 0.08);
+  border: 1px solid rgba(31, 194, 192, 0.2);
+}
+
+.transaction-detail-pane__row {
+  font-size: 0.9rem;
+  color: #c9cdd6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.transaction-detail-pane__row:last-of-type {
+  border-bottom: none;
+}
+
+.transaction-detail-pane__row strong {
+  color: #a3aab5;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+/* Seção "Fluxo" (origem → destino) mais organizada */
+.transaction-detail-pane__section-title {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8b92a4;
+  margin-top: 0.2rem;
+}
+
+.transaction-detail-pane__flow {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.55rem;
+  align-items: center;
+  margin-top: 0.35rem;
+  padding: 0.65rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.transaction-detail-pane__flow-item {
+  display: flex;
+  gap: 0.55rem;
+  align-items: center;
+  min-width: 0;
+  padding: 0.5rem 0.55rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.18);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.transaction-detail-pane__flow-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(31, 194, 192, 0.18);
+}
+
+.transaction-detail-pane__flow-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 1px var(--flow-color, #1fc2c0) inset;
+}
+
+.transaction-detail-pane__flow-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.transaction-detail-pane__flow-label {
+  font-size: 0.72rem;
+  color: #8b92a4;
+}
+
+.transaction-detail-pane__flow-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #f5f7fa;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  word-break: break-word;
+}
+
+/* Linhas do detalhe com valor sempre visível (sem cortes) */
+.transaction-detail-pane__row {
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.transaction-detail-pane__row-value {
+  flex: 1;
+  text-align: right;
+  word-break: break-word;
+}
+
+.transaction-detail-pane__flow-arrow {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.transaction-detail-pane__actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.transaction-detail-pane__btn {
+  flex: 1;
+  padding: 0.6rem 0.8rem;
+  border-radius: 9px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.transaction-detail-pane__btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.transaction-detail-pane__btn--edit {
+  color: #4d96ff;
+  border: 1px solid rgba(77, 150, 255, 0.3);
+}
+
+.transaction-detail-pane__btn--edit:hover {
+  background: rgba(77, 150, 255, 0.15);
+  border-color: rgba(77, 150, 255, 0.5);
+}
+
+.transaction-detail-pane__btn--delete {
+  color: #ff9fac;
+  border: 1px solid rgba(255, 159, 172, 0.3);
+}
+
+.transaction-detail-pane__btn--delete:hover {
+  background: rgba(255, 159, 172, 0.15);
+  border-color: rgba(255, 159, 172, 0.5);
+}
+
+.category-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: #f5f7fa;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.category-option:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(31, 194, 192, 0.3);
+}
+
+.category-option--active {
+  background: var(--color-selected-bg, rgba(245, 215, 66, 0.15));
+  border-color: var(--color-selected-border, rgba(245, 215, 66, 0.5));
+  box-shadow: 0 0 12px var(--color-selected-glow, rgba(245, 215, 66, 0.25)),
+              inset 0 1px 0 rgba(245, 215, 66, 0.1);
+}
+
+.category-option__icon {
+  font-size: 1.25rem;
+}
+
+.category-option__label {
+  font-weight: 500;
+}
+
+/* Source Options para o Formulário */
+.source-container,
+.target-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.source-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #8b92a4;
+  margin-bottom: 0.25rem;
+}
+
+.source-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.source-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: #f5f7fa;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.source-option:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(31, 194, 192, 0.3);
+}
+
+.source-option--active {
+  background: var(--color-selected-bg, rgba(245, 215, 66, 0.15));
+  border-color: var(--color-selected-border, rgba(245, 215, 66, 0.5));
+  box-shadow: 0 0 12px var(--color-selected-glow, rgba(245, 215, 66, 0.25)),
+              inset 0 1px 0 rgba(245, 215, 66, 0.1);
+}
+
+.source-option__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.source-option__name {
+  flex: 1;
+  font-weight: 500;
+  text-align: left;
+}
+
+.source-option__value {
+  font-size: 0.75rem;
+  color: #8b92a4;
+}
+
+.source-empty {
+  padding: 1rem;
+  text-align: center;
+  color: #8b92a4;
+  font-size: 0.85rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-md);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+}

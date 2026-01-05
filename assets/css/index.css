@@ -1,0 +1,52 @@
+/**
+ * Index - Main CSS Entry Point
+ * Importa todos os módulos CSS em ordem de cascata
+ */
+
+/* 1. Variables & Design Tokens */
+@import url('./variables.css');
+
+/* 2. Base Reset & HTML Elements */
+@import url('./base.css');
+
+/* 3. Layout Structures */
+@import url('./layout.css');
+
+/* 4. Buttons & Controls */
+@import url('./buttons.css');
+
+/* 5. Cards Components */
+@import url('./cards.css');
+
+/* 6. Forms & Inputs */
+@import url('./forms.css');
+
+/* 7. Modals */
+@import url('./modals.css');
+
+/* 7.1. Confirmation Modal */
+@import url('./confirmation-modal.css');
+
+/* 8. Footer Navigation */
+@import url('./footer.css');
+
+/* 9. Splash Screen */
+@import url('./splash.css');
+
+/* 10. Utility Classes */
+@import url('./utilities.css');
+
+/* 10.1. Toasts (Notificações leves) */
+@import url('./toasts.css');
+
+/* 10.1. Connectivity Banner (Online/Offline) */
+@import url('./connectivity-banner.css');
+
+/* 11. Responsive Mobile & Desktop */
+@import url('./responsive-mobile.css');
+
+/* 12. Install Banner */
+@import url('./install-banner.css');
+
+/* 13. Correções Gerais e Otimizações */
+@import url('./corrections.css');

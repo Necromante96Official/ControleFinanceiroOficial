@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="Aplicação de controle financeiro familiar para gerenciar benefícios e categorias de gastos" />
+    <meta name="theme-color" content="#050708" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Controle Financeiro" />
+    <!-- Cache-busting do ícone para garantir atualização em PWAs instalados -->
+    <link rel="apple-touch-icon" href="assets/logo/apple-touch-icon-180.png?v=246" />
+    <link rel="icon" type="image/png" href="assets/logo/icon-192.png?v=246" />
+    <link rel="manifest" href="manifest.json" />
+    <title>Controle Financeiro Familiar</title>
+    <link rel="stylesheet" href="assets/css/index.css" />
+    <link rel="stylesheet" href="assets/css/danger-zone.css" />
+    <link rel="preload" as="image" href="assets/logo/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="screen">
+      <main class="screen__content">
+        <section class="tab-panel tab-panel--active" data-tab="extrato">
+          <div class="panel panel--extrato">
+            <div class="panel__header">
+              <div>
+                <p class="panel__tag">Extrato</p>
+                <h2 class="panel__title">Lançamentos</h2>
+              </div>
+              <div class="panel__header-actions">
+                <button id="extrato-filters-open" class="button-secondary" type="button">Filtros</button>
+              </div>
+            </div>
+            <!-- Resumo do Extrato (sem cards) -->
+            <div class="extrato-stats">
+              <div class="stats-strip stats-strip--extrato" role="group" aria-label="Resumo do Extrato">
+                <div class="stats-strip__item stats-strip__item--income">
+                  <p class="stats-strip__label">Entradas</p>
+                  <p id="extrato-stat-entradas" class="stats-strip__value stats-strip__value--income">R$ 0,00</p>
+                </div>
+                <div class="stats-strip__item stats-strip__item--expense">
+                  <p class="stats-strip__label">Saídas</p>
+                  <p id="extrato-stat-saidas" class="stats-strip__value stats-strip__value--expense">R$ 0,00</p>
+                </div>
+                <div class="stats-strip__item stats-strip__item--balance">
+                  <p class="stats-strip__label">Saldo</p>
+                  <p id="extrato-stat-saldo" class="stats-strip__value stats-strip__value--balance">R$ 0,00</p>
+                </div>
+              </div>
+            </div>
+            <div id="extrato-grid" class="extrato-grid"></div>
+          </div>
+        </section>
+        <section class="tab-panel" data-tab="beneficios">
+          <div class="panel panel--benefits">
+            <div class="panel__header">
+              <div>
+                <p class="panel__tag">Benefícios</p>
+                <h2 class="panel__title">Gerencie seus benefícios</h2>
+              </div>
+            </div>
+            <div class="benefits-stats">
+              <div class="stats-strip stats-strip--benefits" role="group" aria-label="Resumo dos Benefícios">
+                <div class="stats-strip__item">
+                  <p class="stats-strip__label">Saldo Total</p>
+                  <p id="stat-total" class="stats-strip__value stats-strip__value--balance">R$ 0,00</p>
+                </div>
+                <div class="stats-strip__item">
+                  <p class="stats-strip__label">Utilizado</p>
+                  <p id="stat-used" class="stats-strip__value stats-strip__value--expense">R$ 0,00</p>
+                </div>
+                <div class="stats-strip__item">
+                  <p class="stats-strip__label">Disponível</p>
+                  <p id="stat-available" class="stats-strip__value stats-strip__value--available">R$ 0,00</p>
+                </div>
+              </div>
+            </div>
+            <div id="benefits-grid" class="benefits-grid"></div>
+          </div>
+        </section>
+        <section class="tab-panel" data-tab="categorias">
+          <div class="panel panel--categories">
+            <div class="panel__header">
+              <div>
+                <p class="panel__tag">Categorias</p>
+                <h2 class="panel__title">Entradas e saídas</h2>
+              </div>
+            </div>
+            <div id="category-grid" class="categories-grid"></div>
+          </div>
+        </section>
+        <section class="tab-panel" data-tab="credito">
+          <div class="panel panel--credit">
+            <div class="panel__header">
+              <div>
+                <p class="panel__tag">Crédito</p>
+                <h2 class="panel__title">Gerencie seus cartões</h2>
+              </div>
+            </div>
+            <div id="credit-due-alert" class="due-alert" style="display: none;"></div>
+            <!-- Resumo do Crédito (sem cards) -->
+            <div class="credit-stats">
+              <div class="stats-strip stats-strip--credit" role="group" aria-label="Resumo do Crédito">
+                <div class="stats-strip__item stats-strip__item--limit">
+                  <p class="stats-strip__label">Limite Total</p>
+                  <p id="credit-stat-total" class="stats-strip__value stats-strip__value--limit">R$ 0,00</p>
+                </div>
+                <div class="stats-strip__item stats-strip__item--available">
+                  <p class="stats-strip__label">Disponível</p>
+                  <p id="credit-stat-available" class="stats-strip__value stats-strip__value--available">R$ 0,00</p>
+                </div>
+                <div class="stats-strip__item stats-strip__item--due">
+                  <p class="stats-strip__label">A Pagar</p>
+                  <p id="credit-stat-due" class="stats-strip__value stats-strip__value--due">R$ 0,00</p>
+                </div>
+              </div>
+            </div>
+            <div id="credit-grid" class="credit-grid"></div>
+          </div>
+        </section>
+        <section class="tab-panel" data-tab="debito">
+          <div class="panel panel--debit">
+            <div class="panel__header">
+              <div>
+                <p class="panel__tag">Débito</p>
+                <h2 class="panel__title">Contas e dinheiro</h2>
+              </div>
+            </div>
+            <div class="debit-stats">
+              <div class="stat-card stat-card--full">
+                <div class="stat-card__content">
+                  <p class="stat-label">Saldo Total</p>
+                  <p id="debit-stat-total" class="stat-value">R$ 0,00</p>
+                </div>
+              </div>
+            </div>
+            <div id="debit-grid" class="debit-grid"></div>
+          </div>
+        </section>
+        <section class="tab-panel" data-tab="configuracoes">
+          <div class="config-panel">
+            <div class="config-panel__header panel__header">
+              <div>
+                <p class="panel__tag">Configurações</p>
+                <h2 class="panel__title">Central de Configurações</h2>
+                <p class="config-panel__subtitle">Acesso rápido e organizado para as funções principais.</p>
+              </div>
+            </div>
+            <div class="config-panel__body">
+              <!-- Zona de Perigo será renderizada via JavaScript (dangerZoneManager.js) -->
+            </div>
+            <div class="config-panel__footer">
+              <span class="config-panel__author">Desenvolvido por Necromante96Official</span>
+              <button
+                id="about-open"
+                class="config-panel__version-btn"
+                type="button"
+                aria-label="Abrir informações do aplicativo"
+              >
+                v1.0.7
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <section id="extrato-filters-modal" class="modal" aria-hidden="true">
+      <div class="modal__overlay" data-action="close" aria-hidden="true"></div>
+      <div
+        class="modal__container modal__container--extrato-filters"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="extrato-filters-title"
+      >
+        <header class="modal__header">
+          <h3 id="extrato-filters-title" class="modal__title">Filtros do Extrato</h3>
+        </header>
+        <div class="modal__body">
+          <div class="extrato-filters extrato-filters--modal">
+            <label class="extrato-filter">
+              <span class="extrato-filter__label">Período</span>
+              <select id="extrato-filter-type" class="extrato-filter__control">
+                <option value="all" selected>Todos os lançamentos</option>
+                <option value="current">Mês atual</option>
+                <option value="day">Por dia</option>
+                <option value="month">Por mês</option>
+                <option value="year">Por ano</option>
+              </select>
+            </label>
+            <label class="extrato-filter extrato-filter--category">
+              <span class="extrato-filter__label">Categoria</span>
+              <select id="extrato-filter-category" class="extrato-filter__control">
+                <option value="all">Todas as categorias juntas</option>
+              </select>
+            </label>
+            <label class="extrato-filter extrato-filter--account-type">
+              <span class="extrato-filter__label">Tipo</span>
+              <select id="extrato-filter-account-type" class="extrato-filter__control">
+                <option value="all" selected>Todos</option>
+                <option value="credito">Crédito</option>
+                <option value="debito">Débito</option>
+                <option value="beneficio">Benefícios</option>
+              </select>
+            </label>
+            <label class="extrato-filter extrato-filter--account-id">
+              <span class="extrato-filter__label">Conta/Cartão/Benefício</span>
+              <select id="extrato-filter-account-id" class="extrato-filter__control">
+                <option value="all" selected>Todos</option>
+              </select>
+            </label>
+            <label class="extrato-filter extrato-filter--hidden" id="extrato-filter-day-wrapper">
+              <span class="extrato-filter__label">Escolha o dia</span>
+              <input id="extrato-filter-date" type="date" class="extrato-filter__control" />
+            </label>
+            <label class="extrato-filter extrato-filter--hidden" id="extrato-filter-month-wrapper">
+              <span class="extrato-filter__label">Escolha o mês</span>
+              <input id="extrato-filter-month-input" type="month" class="extrato-filter__control" />
+            </label>
+            <label class="extrato-filter extrato-filter--hidden" id="extrato-filter-year-wrapper">
+              <span class="extrato-filter__label">Escolha o ano</span>
+              <input
+                id="extrato-filter-year"
+                type="number"
+                min="2000"
+                max="2100"
+                step="1"
+                class="extrato-filter__control"
+                placeholder="2025"
+              />
+            </label>
+          </div>
+        </div>
+        <footer class="modal__footer">
+          <button id="extrato-filters-close" class="button-secondary" type="button">Fechar</button>
+        </footer>
+      </div>
+    </section>
+
+    <section id="category-form" class="form-sheet" aria-hidden="true">
+      <div class="form-sheet__body">
+        <header class="form-sheet__header">
+          <div>
+            <p class="panel__tag">Categoria</p>
+            <h3 id="category-form-title">Nova categoria</h3>
+          </div>
+        </header>
+        <label class="field">
+          <span>Nome</span>
+          <input id="category-name" type="text" placeholder="Ex: Alimentação" autocomplete="off" />
+        </label>
+        <label class="field">
+          <span>Tipo</span>
+          <div class="type-options">
+            <button class="type-option" data-value="Entrada" type="button">Entrada</button>
+            <button class="type-option" data-value="Saída" type="button">Saída</button>
+          </div>
+        </label>
+        <div class="field">
+          <span>Cores</span>
+          <div id="category-color-options" class="color-options" aria-label="Opções de cores"></div>
+        </div>
+        <div class="field">
+          <span>Ícones</span>
+          <div id="category-icon-options" class="icon-options" aria-label="Opções de ícones"></div>
+        </div>
+        <div class="form-sheet__actions">
+          <button id="close-category-form" class="button-secondary" type="button">Fechar</button>
+          <button id="save-category" class="primary" type="button">Salvar</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="benefit-form" class="form-sheet" aria-hidden="true">
+      <div class="form-sheet__body">
+        <header class="form-sheet__header">
+          <div>
+            <p class="panel__tag">Benefício</p>
+            <h3 id="benefit-form-title">Novo benefício</h3>
+          </div>
+        </header>
+        <label class="field">
+          <span>Nome</span>
+          <input id="benefit-name" type="text" placeholder="Ex: Vale-Alimentação" autocomplete="off" />
+        </label>
+        <label class="field">
+          <span>Limite Real</span>
+          <input id="benefit-limit" type="text" placeholder="Ex: 1.2.0.20" autocomplete="off" />
+        </label>
+        <label class="field">
+          <span>Valor Livre (opcional)</span>
+          <input id="benefit-available" type="text" placeholder="Ex: 1.200,00" autocomplete="off" />
+        </label>
+        <label class="field">
+          <span>Dia da Recarga (1-31)</span>
+          <input id="benefit-reload-day" type="number" min="1" max="31" placeholder="Ex: 5" />
+        </label>
+        <label class="field">
+          <span>Tipo</span>
+          <div class="type-options">
+            <button class="type-option" data-value="Vale-Alimentação" type="button">Vale-Alimentação</button>
+            <button class="type-option" data-value="Vale-Transporte" type="button">Vale-Transporte</button>
+          </div>
+        </label>
+        <div class="field">
+          <span>Cores</span>
+          <div id="benefit-color-options" class="color-options" aria-label="Opções de cores"></div>
+        </div>
+        <div class="field">
+          <span>Ícones</span>
+          <div id="benefit-icon-options" class="icon-options" aria-label="Opções de ícones"></div>
+        </div>
+        <div class="form-sheet__actions">
+          <button id="close-benefit-form" class="button-secondary" type="button">Fechar</button>
+          <button id="save-benefit" class="primary" type="button">Salvar</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="credit-form" class="form-sheet" aria-hidden="true">
+      <div class="form-sheet__body">
+        <header class="form-sheet__header">
+          <div>
+            <p class="panel__tag">Cartão de Crédito</p>
+            <h3 id="credit-form-title">Novo cartão de crédito</h3>
+          </div>
+        </header>
+        <label class="field">
+          <span>Nome do Cartão</span>
+          <input id="credit-name" type="text" placeholder="Ex: Nubank, Inter, C6..." autocomplete="off" />
+        </label>
+        <label class="field">
+          <span>Limite do Cartão</span>
+          <input id="credit-limit" type="text" placeholder="Ex: 5.000,00" autocomplete="off" />
+        </label>
+        <label class="field">
+          <span>Dia de Vencimento (1-31)</span>
+          <input id="credit-due-day" type="number" min="1" max="31" placeholder="Ex: 10" />
+        </label>
+        <div class="field">
+          <span>Cores</span>
+          <div id="credit-color-options" class="color-options" aria-label="Opções de cores"></div>
+        </div>
+        <div class="field">
+          <span>Ícones</span>
+          <div id="credit-icon-options" class="icon-options" aria-label="Opções de ícones"></div>
+        </div>
+        <div class="form-sheet__actions">
+          <button id="close-credit-form" class="button-secondary" type="button">Fechar</button>
+          <button id="save-credit" class="primary" type="button">Salvar</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="debit-form" class="form-sheet" aria-hidden="true">
+      <div class="form-sheet__body">
+        <header class="form-sheet__header">
+          <div>
+            <p class="panel__tag">Débito / Dinheiro</p>
+            <h3 id="debit-form-title">Nova conta</h3>
+          </div>
+        </header>
+        <label class="field">
+          <span>Nome</span>
+          <input id="debit-name" type="text" placeholder="Ex: Conta Corrente, Carteira..." autocomplete="off" />
+        </label>
+        <label class="field">
+          <span>Saldo Atual</span>
+          <input id="debit-balance" type="text" placeholder="Ex: 1.500,00" autocomplete="off" />
+        </label>
+        <div class="field">
+          <span>Cores</span>
+          <div id="debit-color-options" class="color-options" aria-label="Opções de cores"></div>
+        </div>
+        <div class="field">
+          <span>Ícones</span>
+          <div id="debit-icon-options" class="icon-options" aria-label="Opções de ícones"></div>
+        </div>
+        <div class="form-sheet__actions">
+          <button id="close-debit-form" class="button-secondary" type="button">Fechar</button>
+          <button id="save-debit" class="primary" type="button">Salvar</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="transaction-form" class="form-sheet" aria-hidden="true">
+      <div class="form-sheet__body">
+        <header class="form-sheet__header">
+          <div>
+            <p class="panel__tag">Extrato</p>
+            <h3 id="transaction-form-title">Novo Lançamento</h3>
+          </div>
+        </header>
+        <label class="field">
+          <span>Nome do Lançamento</span>
+          <input id="transaction-name" type="text" placeholder="Ex: Salário, Aluguel, Mercado..." autocomplete="off" />
+        </label>
+        <label class="field">
+          <span>Valor</span>
+          <input id="transaction-value" type="text" placeholder="Ex: 1.500,00" autocomplete="off" />
+        </label>
+        <label class="field">
+          <span>Data</span>
+          <input id="transaction-date" type="date" />
+        </label>
+        <div class="field">
+          <span>Tipo de Lançamento</span>
+          <div class="type-options">
+            <button class="type-option" data-type="entrada" type="button">📈 Entrada</button>
+            <button class="type-option" data-type="saida" type="button">📉 Saída</button>
+          </div>
+        </div>
+        <div class="field">
+          <span>Categoria</span>
+          <div id="transaction-category" class="category-options-container"></div>
+        </div>
+        <div class="field" id="transaction-source-field">
+          <div id="transaction-source" class="source-container"></div>
+        </div>
+        <div class="field" id="transaction-target-field">
+          <div id="transaction-target" class="target-container"></div>
+        </div>
+        <div class="form-sheet__actions">
+          <button id="close-transaction-form" class="button-secondary" type="button">Fechar</button>
+          <button id="save-transaction" class="primary" type="button">Salvar</button>
+        </div>
+      </div>
+    </section>
+
+    <div id="splash-screen" class="splash-screen splash-screen--active">
+      <!-- Splash minimalista: somente a logo flutuando (sem modal/card) -->
+      <div class="splash-content">
+        <div class="splash-logo" aria-label="Carregando">
+          <img
+            src="assets/logo/logo.png"
+            alt="Logo Controle Financeiro"
+            class="splash-logo-img"
+            decoding="async"
+            fetchpriority="high"
+          />
+        </div>
+
+        <!-- Mantido (oculto por CSS) para compatibilidade com splashScreen.js -->
+        <div class="splash-progress" aria-hidden="true">
+          <div class="splash-progress-track">
+            <div id="progress-bar" class="splash-progress-fill"></div>
+          </div>
+          <div id="progress-text" class="splash-progress-text">0%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Boot failsafe + error reporter -->
+    <script>
+      (function () {
+        const splash = document.getElementById('splash-screen');
+        let dismissed = false;
+
+        const setStatus = (message, { error } = {}) => {
+          // Só marcar como erro em falhas realmente graves (failsafe manual).
+          if (splash && error) splash.classList.add('splash-screen--error');
+        };
+
+        const hideSplash = () => {
+          if (!splash || dismissed) return;
+          dismissed = true;
+          splash.style.opacity = '0';
+          setTimeout(() => {
+            splash.style.display = 'none';
+          }, 250);
+        };
+
+        // Fail-safe do HTML: pensado para cobrir falhas graves de boot.
+        // Tempo alinhado com os failsafes do JS para evitar “sumir cedo demais”.
+        const failsafe = setTimeout(() => {
+          setStatus('Carregando (modo seguro)...', { error: true });
+          hideSplash();
+        }, 20000);
+
+        window.__notifyBootSuccess = (message = 'Pronto!') => {
+          clearTimeout(failsafe);
+          setStatus(message);
+          // Não esconder aqui: o controle principal de fechamento é feito pelo JS.
+        };
+
+        window.__notifyBootError = (message = 'Erro ao carregar') => {
+          clearTimeout(failsafe);
+          setStatus(`Erro: ${message}`, { error: true });
+        };
+
+        // Importante: evitar que erros não-críticos “pintem” a splash como erro.
+        // O failsafe de 20s já cobre travamentos reais de boot.
+      })();
+    </script>
+
+    <footer class="footer">
+      <button id="add-btn" class="footer__add-btn" type="button" aria-label="Adicionar novo lançamento">+</button>
+      <div class="footer__nav-wrapper">
+        <nav class="footer__nav">
+          <button class="footer__link footer__link--active" data-tab="extrato" type="button" aria-label="Ver extrato">Extrato</button>
+          <button class="footer__link" data-tab="debito" type="button" aria-label="Ver contas de débito">Débito</button>
+          <button class="footer__link" data-tab="credito" type="button" aria-label="Ver cartões de crédito">Crédito</button>
+          <button class="footer__link" data-tab="beneficios" type="button" aria-label="Ver benefícios">Benefícios</button>
+          <button class="footer__link" data-tab="categorias" type="button" aria-label="Ver categorias de gastos">Categorias</button>
+          <button class="footer__link" data-tab="configuracoes" type="button" aria-label="Abrir configurações">Configurações</button>
+        </nav>
+      </div>
+    </footer>
+
+    <!-- Script modular principal -->
+    <script type="module" src="assets/js/main.js"></script>
+
+    <!-- Fallback para Export/Import - Funções globais de emergência -->
+    <!-- PWA Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        // ------------
+        // Auto-recuperação (somente sessão atual):
+        // Se o navegador não consegue buscar o sw.js (ex.: 404), o app pode ficar
+        // preso em um SW antigo e nunca atualizar a UI/versão.
+        // Aqui tentamos, 1 vez por sessão, desregistrar o SW e limpar APENAS
+        // caches do app para voltar a usar a versão de rede.
+        // ------------
+        const SW_RECOVERY_FLAG = 'finance-control:sw-recovery-attempted';
+        const APP_CACHE_PREFIX = 'controlefinanceiro-';
+
+        async function deleteOnlyAppCaches() {
+          if (!('caches' in window)) return;
+          const names = await caches.keys();
+          const appCaches = names.filter((n) => n && n.startsWith(APP_CACHE_PREFIX));
+          await Promise.all(appCaches.map((n) => caches.delete(n)));
+        }
+
+        async function recoverFromBrokenServiceWorker(registration, reason) {
+          try {
+            if (sessionStorage.getItem(SW_RECOVERY_FLAG) === '1') return;
+            sessionStorage.setItem(SW_RECOVERY_FLAG, '1');
+
+            console.warn('⚠️ SW: recuperação acionada:', reason);
+
+            try {
+              await registration?.unregister?.();
+            } catch {
+              // Ignorar
+            }
+
+            try {
+              await deleteOnlyAppCaches();
+            } catch {
+              // Ignorar
+            }
+
+            // Recarregar para buscar versão de rede.
+            window.location.reload();
+          } catch {
+            // Ignorar
+          }
+        }
+
+        // ------------
+        // Importante:
+        // - NÃO esperar "window.load".
+        // - Este script está no fim do <body>, então já temos DOM suficiente.
+        // - Isso evita corrida com o bootstrap do app (main.js) e melhora o timing
+        //   do toast de update em sessões já abertas.
+        // ------------
+        navigator.serviceWorker.register('./sw.js', { scope: './', updateViaCache: 'none' })
+          .then(registration => {
+            console.log('✅ Service Worker registrado:', registration.scope);
+            // Forçar checagem imediata para evitar ficar preso em SW/cache antigos.
+            registration.update().catch((error) => {
+              const msg = String(error?.message || error || '');
+
+              // Caso típico do problema reportado: sw.js 404
+              if (msg.includes('404') || msg.includes('bad HTTP response code')) {
+                recoverFromBrokenServiceWorker(registration, msg);
+                return;
+              }
+            });
+          })
+          .catch(error => {
+            console.warn('⚠️ Erro ao registrar Service Worker:', error);
+
+            // Se o registro falhar por 404, tentar recuperar (1 vez por sessão)
+            const msg = String(error?.message || error || '');
+            if (msg.includes('404') || msg.includes('bad HTTP response code')) {
+              recoverFromBrokenServiceWorker(null, msg);
+            }
+          });
+
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          console.log('🔄 Service Worker controllerchange detectado');
+        });
+      }
+
+      // Detectar modo PWA (instalado como app)
+      (function () {
+        const isStandalone =
+          window.matchMedia && window.matchMedia('(display-mode: standalone)').matches;
+        const isIOSStandalone = window.navigator.standalone === true;
+
+        if (isStandalone || isIOSStandalone) {
+          document.documentElement.classList.add('pwa-mode');
+        }
+      })();
+
+      // Banner de instalação desativado no momento (solicitado).
+    </script>
+

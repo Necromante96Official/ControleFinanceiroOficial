@@ -1,0 +1,926 @@
+/**
+ * Modal Styles
+ * Estilos para modais (clear-modal, etc.)
+ */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-normal);
+}
+
+.modal.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal__overlay,
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay-bg);
+  backdrop-filter: blur(var(--overlay-blur));
+}
+
+/* Fallback quando backdrop-filter não estiver disponível */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .modal__overlay,
+  .modal__backdrop {
+    backdrop-filter: none;
+    background: var(--overlay-bg-strong);
+  }
+}
+
+.modal__content,
+.modal__container {
+  position: relative;
+  background: linear-gradient(135deg, rgba(13, 19, 35, 0.98), rgba(10, 13, 24, 0.98));
+  border: 1px solid rgba(31, 194, 192, 0.3);
+  border-radius: var(--radius-xl);
+  padding: 1.25rem;
+  max-width: 90%;
+  width: 360px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.3s ease;
+}
+
+/* Modal específico: Filtros do Extrato (mais largo e com rolagem) */
+.modal__container--extrato-filters {
+  width: min(520px, 90vw);
+  max-height: min(78vh, 600px);
+  display: flex;
+  flex-direction: column;
+}
+
+.modal__container--extrato-filters .modal__body {
+  overflow: auto;
+}
+
+/* ==================================================
+   Modal: Tópicos das Configurações
+   - Aba flutuante para cada tópico (scroll interno)
+   ================================================== */
+
+.modal__container--settings-topic {
+  width: min(760px, 94vw);
+  max-height: min(82vh, 760px);
+  margin-top: 5vh;
+  margin-bottom: 2vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal__container--settings-topic .modal__body {
+  overflow: auto;
+}
+
+/* ==================================================
+   Modal: Compacto (padrão interno)
+   ================================================== */
+
+.modal__container--compact {
+  padding: 1rem;
+  border-radius: var(--radius-lg);
+}
+
+.modal__container--compact .modal__header {
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+}
+
+.modal__container--compact .modal__body {
+  margin-bottom: 1rem;
+}
+
+.modal__container--compact .modal__footer {
+  padding-top: 0.75rem;
+}
+
+/* ==================================================
+   Modal: Sobre (card pequeno)
+   ================================================== */
+
+.modal__container--about {
+  width: min(520px, 92vw);
+}
+
+.about__meta {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.about__text {
+  margin: 0.75rem 0 0;
+  color: var(--text);
+  line-height: 1.45;
+}
+
+.about__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  color: rgba(var(--accent-rgb), 0.95);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal__content,
+  .modal__container {
+    animation: none;
+  }
+}
+
+.modal__header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(31, 194, 192, 0.2);
+}
+
+.modal__title,
+.modal__header h3,
+.modal__header h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text);
+}
+
+.modal__subtitle {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+.modal__close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal__close:hover {
+  background: rgba(255, 107, 107, 0.1);
+  color: #ff6b6b;
+}
+
+.modal__body {
+  margin-bottom: 1.5rem;
+}
+
+.modal__text {
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin: 0 0 1.25rem 0;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+.modal__options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.modal__footer {
+  display: flex;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(31, 194, 192, 0.2);
+}
+
+/* Modal Buttons Melhorados */
+.modal-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.modal-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.modal-btn:hover {
+  transform: translateX(4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-btn:hover {
+    transform: none;
+  }
+}
+
+.modal-btn__icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+}
+
+.modal-btn__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.modal-btn__text strong {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.modal-btn__text small {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.modal-btn--danger {
+  border-color: color-mix(in srgb, var(--color-red) 30%, transparent);
+}
+
+.modal-btn--danger .modal-btn__icon {
+  background: color-mix(in srgb, var(--color-red) 16%, transparent);
+}
+
+.modal-btn--danger:hover {
+  background: color-mix(in srgb, var(--color-red) 10%, transparent);
+  border-color: color-mix(in srgb, var(--color-red) 55%, transparent);
+}
+
+.modal-btn--danger .modal-btn__text strong {
+  color: color-mix(in srgb, var(--color-red) 78%, var(--text));
+}
+
+.modal-btn--warning {
+  border-color: var(--color-selected-border);
+}
+
+.modal-btn--warning .modal-btn__icon {
+  background: var(--color-selected-bg);
+}
+
+.modal-btn--warning:hover {
+  background: color-mix(in srgb, var(--color-selected-bg) 85%, transparent);
+  border-color: color-mix(in srgb, var(--color-selected) 60%, transparent);
+}
+
+.modal-btn--warning .modal-btn__text strong {
+  color: var(--color-selected);
+}
+
+/* Estilos para botões de ação primary/success/info/secondary */
+.modal-btn--primary {
+  border-color: rgba(31, 194, 192, 0.3);
+}
+
+.modal-btn--primary .modal-btn__icon {
+  background: rgba(31, 194, 192, 0.15);
+}
+
+.modal-btn--primary:hover {
+  background: rgba(31, 194, 192, 0.1);
+  border-color: rgba(31, 194, 192, 0.5);
+}
+
+.modal-btn--primary .modal-btn__text strong {
+  color: var(--primary);
+}
+
+/* ==================================================
+   Configurações: garantir legibilidade (evita “texto preto”)
+   ================================================== */
+
+.config-panel .modal-btn__text strong {
+  color: var(--text);
+}
+
+.config-panel .modal-btn__text small {
+  color: var(--muted);
+}
+
+.modal-btn--success {
+  border-color: rgba(37, 211, 102, 0.3);
+}
+
+.modal-btn--success .modal-btn__icon {
+  background: rgba(37, 211, 102, 0.15);
+}
+
+.modal-btn--success:hover {
+  background: rgba(37, 211, 102, 0.1);
+  border-color: rgba(37, 211, 102, 0.5);
+}
+
+.modal-btn--success .modal-btn__text strong {
+  color: #25d366;
+}
+
+.modal-btn--info {
+  border-color: rgba(77, 150, 255, 0.3);
+}
+
+.modal-btn--info .modal-btn__icon {
+  background: rgba(77, 150, 255, 0.15);
+}
+
+.modal-btn--info:hover {
+  background: rgba(77, 150, 255, 0.1);
+  border-color: rgba(77, 150, 255, 0.5);
+}
+
+.modal-btn--info .modal-btn__text strong {
+  color: #4d96ff;
+}
+
+.modal-btn--secondary {
+  border-color: rgba(139, 146, 164, 0.3);
+}
+
+.modal-btn--secondary .modal-btn__icon {
+  background: rgba(139, 146, 164, 0.15);
+}
+
+.modal-btn--secondary:hover {
+  background: rgba(139, 146, 164, 0.1);
+  border-color: rgba(139, 146, 164, 0.5);
+}
+
+.modal-btn--secondary .modal-btn__text strong {
+  color: #8b92a4;
+}
+
+/* Estilos para Import Modal */
+.import-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.import-textarea-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.import-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.import-textarea {
+  width: 100%;
+  padding: 0.875rem;
+  border: 1px solid rgba(31, 194, 192, 0.2);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  resize: vertical;
+  min-height: 120px;
+  transition: border-color 0.2s ease;
+}
+
+.import-textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(31, 194, 192, 0.1);
+}
+
+.import-textarea::placeholder {
+  color: rgba(139, 146, 164, 0.5);
+}
+
+.import-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.import-divider::before,
+.import-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(31, 194, 192, 0.2);
+}
+
+.import-file-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.import-file-input {
+  display: none;
+}
+
+.import-file-wrapper .modal-btn {
+  justify-content: center;
+}
+
+.import-file-name {
+  font-size: 0.8rem;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+/* Estilos para Export Options */
+.export-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Import Result Styles */
+.import-result-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.import-result-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.import-result-item__icon {
+  font-size: 1.25rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.import-result-item__text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.import-result-item__title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.import-result-item__detail {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.import-result-item--added {
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.import-result-item--added .import-result-item__icon {
+  background: rgba(34, 197, 94, 0.15);
+}
+
+.import-result-item--added .import-result-item__title {
+  color: #22c55e;
+}
+
+.import-result-item--updated {
+  border-color: rgba(77, 150, 255, 0.3);
+}
+
+.import-result-item--updated .import-result-item__icon {
+  background: rgba(77, 150, 255, 0.15);
+}
+
+.import-result-item--updated .import-result-item__title {
+  color: #4d96ff;
+}
+
+.import-result-item--skipped {
+  border-color: rgba(139, 146, 164, 0.3);
+}
+
+.import-result-item--skipped .import-result-item__icon {
+  background: rgba(139, 146, 164, 0.15);
+}
+
+.import-result-item--skipped .import-result-item__title {
+  color: #8b92a4;
+}
+
+.import-result-error {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 10px;
+  background: rgba(231, 76, 60, 0.08);
+  border: 1px solid rgba(231, 76, 60, 0.2);
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.import-result-error__icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.import-result-error__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.import-result-error__title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #e74c3c;
+}
+
+.import-result-error__detail {
+  font-size: 0.8rem;
+  color: #c0392b;
+  line-height: 1.4;
+}
+
+.import-result-summary {
+  margin-top: 0.5rem;
+  padding: 1rem;
+  border-radius: 10px;
+  background: rgba(31, 194, 192, 0.08);
+  border: 1px solid rgba(31, 194, 192, 0.2);
+  text-align: center;
+}
+
+.import-result-summary--success {
+  background: rgba(46, 204, 113, 0.08);
+  border: 1px solid rgba(46, 204, 113, 0.2);
+}
+
+.import-result-summary__icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.import-result-summary__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.25rem;
+}
+
+.import-result-summary--success .import-result-summary__title {
+  color: #2ecc71;
+}
+
+.import-result-summary__text {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
+}
+
+.import-result-summary__detail {
+  font-size: 0.75rem;
+  color: #8b92a4;
+}
+
+/* ========================================
+   DEBIT SELECTOR MODAL - Seleção de Conta
+   ======================================== */
+.debit-selector-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.debit-selector-modal--active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.debit-selector-modal--closing {
+  opacity: 0;
+}
+
+.debit-selector-modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+}
+
+.debit-selector-modal__content {
+  position: relative;
+  background: linear-gradient(135deg, rgba(13, 19, 35, 0.98), rgba(10, 13, 24, 0.98));
+  border: 1px solid rgba(31, 194, 192, 0.35);
+  border-radius: 16px;
+  padding: 0;
+  max-width: 90%;
+  width: 380px;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6);
+  animation: slideUp 0.3s ease;
+  overflow: hidden;
+}
+
+.debit-selector-modal__header {
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, rgba(31, 194, 192, 0.12), rgba(31, 194, 192, 0.05));
+  border-bottom: 1px solid rgba(31, 194, 192, 0.2);
+}
+
+.debit-selector-modal__title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f5f7fa;
+  margin: 0 0 0.25rem 0;
+}
+
+.debit-selector-modal__subtitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 0;
+}
+
+.debit-selector-modal__body {
+  padding: 1.25rem 1.5rem;
+}
+
+.debit-selector-modal__instruction {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0 0 1rem 0;
+}
+
+.debit-selector-modal__accounts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.debit-selector-modal__payment-amount {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.debit-selector-modal__amount-mode {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.debit-selector-modal__amount-mode-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #f5f7fa;
+  margin: 0 0 0.75rem 0;
+}
+
+.debit-selector-modal__amount-mode-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text);
+  padding: 0.65rem 0.75rem;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 0.5rem;
+}
+
+.debit-selector-modal__amount-mode-option:hover {
+  background: rgba(31, 194, 192, 0.08);
+  border-color: rgba(31, 194, 192, 0.35);
+}
+
+.debit-selector-modal__amount-mode-option input[type="radio"] {
+  accent-color: var(--primary);
+}
+
+.debit-selector-modal__payment-amount-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #f5f7fa;
+  margin-bottom: 0.5rem;
+}
+
+.debit-selector-modal__payment-amount-input {
+  width: 100%;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.85rem 1rem;
+  color: var(--text);
+  transition: all 0.2s ease;
+}
+
+.debit-selector-modal__payment-amount-input:focus {
+  outline: none;
+  background: rgba(31, 194, 192, 0.08);
+  border-color: rgba(31, 194, 192, 0.35);
+  box-shadow: 0 0 0 3px rgba(31, 194, 192, 0.12);
+}
+
+.debit-selector-modal__payment-amount-hint {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.debit-selector-modal__account {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.debit-selector-modal__account:hover {
+  background: rgba(31, 194, 192, 0.08);
+  border-color: rgba(31, 194, 192, 0.35);
+}
+
+.debit-selector-modal__account:has(input:checked) {
+  background: rgba(31, 194, 192, 0.12);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(31, 194, 192, 0.15);
+}
+
+.debit-selector-modal__account--insufficient {
+  opacity: 0.7;
+  border-color: rgba(255, 159, 172, 0.3);
+}
+
+.debit-selector-modal__account--insufficient:hover {
+  border-color: rgba(255, 159, 172, 0.5);
+  background: rgba(255, 159, 172, 0.08);
+}
+
+.debit-selector-modal__account input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.debit-selector-modal__account-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.debit-selector-modal__account-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.debit-selector-modal__account-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f5f7fa;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.debit-selector-modal__account-balance {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #6bcb77;
+}
+
+.debit-selector-modal__account-balance--low {
+  color: #ff9fac;
+}
+
+.debit-selector-modal__account-warning {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ff9fac;
+  background: rgba(255, 159, 172, 0.15);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.debit-selector-modal__account-check {
+  font-size: 1rem;
+  color: var(--primary);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  flex-shrink: 0;
+}
+
+.debit-selector-modal__account:has(input:checked) .debit-selector-modal__account-check {
+  opacity: 1;
+}
+
+.debit-selector-modal__footer {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.debit-selector-modal__btn {
+  flex: 1;
+  padding: 0.875rem;
+  border-radius: 10px;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.debit-selector-modal__btn--cancel {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--muted);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.debit-selector-modal__btn--cancel:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #f5f7fa;
+}
+
+.debit-selector-modal__btn--confirm {
+  background: linear-gradient(135deg, var(--primary), #16a3a0);
+  color: #fff;
+}
+
+.debit-selector-modal__btn--confirm:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(31, 194, 192, 0.35);
+}
+
+.debit-selector-modal__btn--confirm:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
