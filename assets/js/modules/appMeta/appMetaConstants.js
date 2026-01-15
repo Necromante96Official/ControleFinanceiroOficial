@@ -8,11 +8,12 @@
 // ================================
 
 /** Versão do aplicativo (somente números e pontos). */
-export const APP_VERSION = '1.0.7';
+export const APP_VERSION = '1.0.8';
 
 /** Build do aplicativo (formato com pontos para cache/versionamento). */
 // Build incremental (ex.: 308, 309, 310...) usado para cache/versionamento.
-export const APP_BUILD = '246';
+export const APP_BUILD = '250';
+
 
 /** Autor exibido na UI. */
 export const APP_AUTHOR = 'Necromante96Official';

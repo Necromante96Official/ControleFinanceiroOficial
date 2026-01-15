@@ -110,6 +110,187 @@
   width: min(520px, 92vw);
 }
 
+/* ==================================================
+   Modal: Histórico de Atualizações
+   - Segue o layout do sistema e o padrão de updates.md
+   ================================================== */
+
+.modal__container--updates {
+  width: min(860px, 94vw);
+  max-height: min(84vh, 860px);
+  margin-top: 4vh;
+  margin-bottom: 2vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==================================================
+   Scroll “inteligente” (Histórico de Atualizações)
+   - Evita conteúdo cortado
+   - Scroll interno só quando necessário
+   - Evita scroll chaining (mobile)
+   ================================================== */
+
+.modal__container--updates .modal__body {
+  /* ------------
+     Necessário para overflow funcionar em flex container
+     ------------ */
+  flex: 1 1 auto;
+  min-height: 0;
+
+  /* ------------
+     Scroll interno
+     ------------ */
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+
+  /* ------------
+     Evita “pulo” quando a scrollbar aparece
+     ------------ */
+  scrollbar-gutter: stable;
+
+  /* ------------
+     Scrollbar mais discreta (Firefox)
+     ------------ */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.28) rgba(255, 255, 255, 0.06);
+}
+
+/* Scrollbar mais discreta (WebKit/Chromium) */
+.modal__container--updates .modal__body::-webkit-scrollbar {
+  width: 10px;
+}
+
+.modal__container--updates .modal__body::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+}
+
+.modal__container--updates .modal__body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  border: 2px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+}
+
+.modal__container--updates .modal__body::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.34);
+  border: 2px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+}
+
+.updates__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.updates__empty {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.updates__entry {
+  padding: 0.95rem 0.95rem;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  box-shadow: var(--shadow-card);
+  max-width: 100%;
+}
+
+.updates__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.updates__title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text);
+  text-align: center;
+}
+
+.updates__meta {
+  margin: 0.3rem 0 0;
+  color: var(--muted);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.updates__author {
+  margin: 0.35rem 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.updates__divider {
+  margin: 0.5rem 0 0;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.12em;
+  user-select: none;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  overflow-wrap: anywhere;
+}
+
+.updates__support {
+  margin-top: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  text-align: center;
+}
+
+.updates__support-title {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: 700;
+}
+
+.updates__support-link {
+  color: rgba(var(--accent-rgb), 0.96);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  overflow-wrap: anywhere;
+}
+
+.updates__items {
+  margin: 0.95rem 0 0;
+  padding: 0;
+  list-style: none;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.updates__item {
+  position: relative;
+  margin: 0;
+  padding-left: 1rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+/* Pequeno separador automático entre itens (equivalente ao "===" do updates.md) */
+.updates__item + .updates__item {
+  margin-top: 0.65rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.updates__item::before {
+  content: '-';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: rgba(255, 255, 255, 0.55);
+}
+
 .about__meta {
   margin: 0;
   color: var(--muted);

@@ -248,12 +248,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.45rem;
   margin-top: auto;
   flex-shrink: 0;
-  padding: 1.5rem 1rem;
+  padding: 1.05rem 1rem 0.95rem;
   background: var(--surface);
   border-top: 1px solid var(--border);
+  /* Move visualmente para cima sem aumentar o layout (evita scrollbar) */
+  transform: translateY(-22px);
+  will-change: transform;
 }
 
 .config-panel__author {
@@ -262,7 +265,7 @@
   letter-spacing: 0.05em;
 }
 
-.config-panel__version-btn {
+.config-panel__updates-btn {
   border: 1px solid var(--border);
   background: linear-gradient(
     135deg,
@@ -271,11 +274,11 @@
   );
   color: var(--text);
   border-radius: var(--radius-full);
-  padding: 0.35rem 0.7rem;
-  font-size: 0.75rem;
+  padding: 0.55rem 0.95rem;
+  font-size: 0.85rem;
   line-height: 1;
-  letter-spacing: 0.08em;
-  text-transform: lowercase;
+  letter-spacing: 0.04em;
+  text-transform: none;
   cursor: pointer;
   box-shadow:
     0 0 0 1px rgba(var(--accent-rgb), 0.18),
@@ -286,7 +289,7 @@
   overflow: hidden;
 }
 
-.config-panel__version-btn::before {
+.config-panel__updates-btn::before {
   content: '';
   position: absolute;
   inset: -40% -30%;
@@ -301,7 +304,7 @@
   pointer-events: none;
 }
 
-.config-panel__version-btn:hover {
+.config-panel__updates-btn:hover {
   border-color: rgba(var(--accent-rgb), 0.35);
   box-shadow:
     0 0 0 1px rgba(var(--accent-rgb), 0.28),
@@ -309,11 +312,11 @@
     0 0 26px rgba(var(--accent-rgb), 0.18);
 }
 
-.config-panel__version-btn:active {
+.config-panel__updates-btn:active {
   transform: scale(0.98);
 }
 
-.config-panel__version-btn:focus-visible {
+.config-panel__updates-btn:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
@@ -334,7 +337,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .config-panel__version-btn::before {
+  .config-panel__updates-btn::before {
     animation: none;
   }
 }
@@ -443,8 +446,11 @@
   display: flex;
   align-items: stretch;
   justify-content: flex-start;
-  padding-bottom: 0.75rem;
+  padding-bottom: 0;
   flex: 1;
+  min-height: 0;
+  /* Evita scrollbar residual causada por sombras/transform em containers flex */
+  overflow: hidden;
 }
 
 @keyframes fadeIn {

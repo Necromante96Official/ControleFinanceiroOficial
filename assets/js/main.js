@@ -48,7 +48,7 @@ import { TransactionManager } from "./modules/transactionManager.js";
 import { GridRenderer } from "./modules/gridRenderer.js";
 import { SaveHandlers } from "./modules/saveHandlers.js";
 import { DangerZoneManager } from "./modules/dangerZoneManager.js";
-import { AboutModalManager } from "./modules/about/aboutModalManager.js";
+import { UpdatesModalManager } from "./modules/changelog/updatesModalManager.js";
 
 // Auditoria (últimas ações)
 import { AuditManager } from "./modules/audit/auditManager.js";
@@ -810,11 +810,11 @@ function initApp() {
   const soundSettingsManager = new SoundSettingsManager();
   soundSettingsManager.init();
 
-  // Sobre (card simples ao clicar na versão)
-  const aboutModalManager = new AboutModalManager({
-    openButton: elements.aboutOpenBtn,
+  // Histórico de Atualizações (aba Configurações)
+  const updatesModalManager = new UpdatesModalManager({
+    openButton: elements.updatesOpenBtn,
   });
-  aboutModalManager.init();
+  updatesModalManager.init();
 
   console.log("✅ Managers inicializados");
 

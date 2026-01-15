@@ -60,8 +60,8 @@ export function getDOMElements() {
     // Botão Adicionar
     addBtn: document.getElementById("add-btn"),
 
-    // Sobre / Versão
-    aboutOpenBtn: document.getElementById("about-open"),
+    // Histórico de Atualizações
+    updatesOpenBtn: document.getElementById("updates-open"),
 
     // Modal de Limpeza
     clearModal: document.getElementById("clear-modal"),

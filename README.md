@@ -3,8 +3,8 @@
   <h1>Controle Financeiro Familiar</h1>
   <p>Organize suas finanças do dia a dia de um jeito simples, bonito e direto.</p>
   <p>
-    <img alt="Versão" src="https://img.shields.io/badge/vers%C3%A3o-1.0.7-0ea5e9" />
-    <img alt="Build" src="https://img.shields.io/badge/build-246-22c55e" />
+    <img alt="Versão" src="https://img.shields.io/badge/vers%C3%A3o-1.0.8-0ea5e9" />
+    <img alt="Build" src="https://img.shields.io/badge/build-248-22c55e" />
     <img alt="Status" src="https://img.shields.io/badge/status-est%C3%A1vel-10b981" />
     <img alt="PWA" src="https://img.shields.io/badge/PWA-offline--first-6366f1" />
   </p>
@@ -95,6 +95,13 @@ Ela ajuda a entender o que aconteceu caso algo dê errado (travamento, erro, imp
 
 ---
 
+## 🗂️ Histórico de Atualizações
+
+Na aba **Configurações**, use o botão **Histórico de Atualizações** para ver as melhorias.
+O conteúdo é carregado do arquivo `assets/changelog/updates.md`.
+
+---
+
 ## 🔒 Segurança e privacidade
 
 - Seus dados ficam no seu aparelho
@@ -133,8 +140,8 @@ Alternativa (sem Node):
 
 ## 📌 Informações do aplicativo
 
-- Versão: 1.0.7
-- Build: 246
+- Versão: 1.0.8
+- Build: 248
 - Autor: Necromante96Official
 
 ---
