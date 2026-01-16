@@ -46,6 +46,7 @@ export function getDOMElements() {
     extratoFiltersOpenBtn: document.getElementById("extrato-filters-open"),
     extratoFiltersModal: document.getElementById("extrato-filters-modal"),
     extratoFiltersCloseBtn: document.getElementById("extrato-filters-close"),
+    extratoFiltersClearBtn: document.getElementById("extrato-filters-clear"),
     extratoFilterType: document.getElementById("extrato-filter-type"),
     extratoFilterCategory: document.getElementById("extrato-filter-category"),
     extratoFilterAccountType: document.getElementById("extrato-filter-account-type"),

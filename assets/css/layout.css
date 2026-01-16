@@ -251,11 +251,12 @@
   gap: 0.45rem;
   margin-top: auto;
   flex-shrink: 0;
-  padding: 1.05rem 1rem 0.95rem;
+  /* Mantém espaço inferior consistente, inclusive em devices com safe-area */
+  padding: 1.05rem 1rem calc(0.95rem + env(safe-area-inset-bottom, 0px));
   background: var(--surface);
   border-top: 1px solid var(--border);
   /* Move visualmente para cima sem aumentar o layout (evita scrollbar) */
-  transform: translateY(-22px);
+  transform: translateY(-34px);
   will-change: transform;
 }
 

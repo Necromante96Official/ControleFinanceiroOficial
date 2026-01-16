@@ -58,6 +58,11 @@
   flex-direction: column;
 }
 
+.modal__container--extrato-filters {
+  width: min(420px, 94vw);
+  max-height: min(90vh, 600px);
+}
+
 .modal__container--extrato-filters .modal__body {
   overflow: auto;
 }
@@ -211,8 +216,10 @@
   margin: 0;
   font-size: 1.05rem;
   font-weight: 800;
-  color: var(--text);
+  color: #0ea5e9; /* Cor azul destacada (Sky 500) */
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .updates__meta {

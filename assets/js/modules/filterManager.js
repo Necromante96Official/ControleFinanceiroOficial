@@ -44,6 +44,9 @@ export class FilterManager {
       debito: { revision: null, set: null },
       beneficio: { revision: null, set: null },
     };
+
+    // Coleção de categorias selecionadas para multi-filtro (Set para O(1))
+    this._multiSelectedCategories = new Set();
   }
 
   /**
@@ -57,9 +60,9 @@ export class FilterManager {
   }
 
   /**
-   * Configura os event listeners dos filtros
+   * Redefine todos os filtros para os valores padrões
    */
-  setupEventListeners() {
+  clearFilters() {
     const {
       extratoFilterType,
       extratoFilterCategory,
@@ -70,11 +73,51 @@ export class FilterManager {
       extratoFilterYear
     } = this.elements;
 
+    if (extratoFilterType) extratoFilterType.value = 'all';
+    
+    // Resetar multi-seleção de categorias
+    this._multiSelectedCategories.clear();
+    if (extratoFilterCategory) {
+      extratoFilterCategory.value = 'all';
+      this._updateCategoryAllOptionText();
+      this._renderCategoryTags();
+    }
+
+    if (extratoFilterAccountType) extratoFilterAccountType.value = 'all';
+    this.refreshAccountOptions(); // Resetar lista de contas para 'all'
+
+    if (extratoFilterDate) extratoFilterDate.value = '';
+    if (extratoFilterMonthInput) extratoFilterMonthInput.value = '';
+    if (extratoFilterYear) extratoFilterYear.value = '';
+
+    this.syncDynamicFilters();
+    this.onFilterChange();
+  }
+
+  /**
+   * Configura os event listeners dos filtros
+   */
+  setupEventListeners() {
+    const {
+      extratoFilterType,
+      extratoFilterCategory,
+      extratoFilterAccountType,
+      extratoFilterAccountId,
+      extratoFilterDate,
+      extratoFilterMonthInput,
+      extratoFilterYear,
+      extratoFiltersClearBtn
+    } = this.elements;
+
     if (extratoFilterType) {
       extratoFilterType.addEventListener('change', () => {
         this.syncDynamicFilters();
         this.onFilterChange();
       });
+    }
+
+    if (extratoFiltersClearBtn) {
+      extratoFiltersClearBtn.addEventListener('click', () => this.clearFilters());
     }
 
     if (extratoFilterAccountType) {
@@ -84,7 +127,11 @@ export class FilterManager {
       });
     }
 
-    [extratoFilterCategory, extratoFilterAccountId, extratoFilterDate, extratoFilterMonthInput, extratoFilterYear]
+    if (extratoFilterCategory) {
+      extratoFilterCategory.addEventListener('change', (e) => this._handleCategoryChange(e));
+    }
+
+    [extratoFilterAccountId, extratoFilterDate, extratoFilterMonthInput, extratoFilterYear]
       .filter(Boolean)
       .forEach((element) => {
         element.addEventListener('change', () => this.onFilterChange());
@@ -155,63 +202,140 @@ export class FilterManager {
 
   /**
    * Atualiza as opções de categoria do filtro
-    * Corrige a opção "Pagamentos de Fatura" para filtrar corretamente
    */
   refreshCategoryOptions() {
     const { extratoFilterCategory } = this.elements;
     if (!extratoFilterCategory) return;
 
     const categories = this.categoryStore.getAll();
-    const previousValue = extratoFilterCategory.value;
 
     extratoFilterCategory.innerHTML = '<option value="all">Todas as categorias</option>';
+    
     const invoicePaymentOption = document.createElement('option');
     invoicePaymentOption.value = '__invoice_payment';
     invoicePaymentOption.textContent = '💳 Pagamentos de Fatura';
     extratoFilterCategory.appendChild(invoicePaymentOption);
 
-    if (categories.length === 0) {
-      const emptyOption = document.createElement('option');
-      emptyOption.value = '__empty';
-      emptyOption.textContent = 'Nenhuma categoria cadastrada';
-      emptyOption.disabled = true;
-      extratoFilterCategory.appendChild(emptyOption);
-      if (previousValue !== '__invoice_payment') {
-        extratoFilterCategory.value = 'all';
-      }
-      return;
+    if (categories.length > 0) {
+      // Agrupar categorias por tipo
+      const entradasGroup = document.createElement('optgroup');
+      entradasGroup.label = 'Entradas';
+      const saidasGroup = document.createElement('optgroup');
+      saidasGroup.label = 'Saídas';
+
+      categories.forEach((category) => {
+        const option = document.createElement('option');
+        option.value = String(category.id);
+        option.textContent = `${category.icon} ${category.name}`;
+
+        const type = (category.type || '').toString().toLowerCase();
+        if (type === 'entrada') {
+          entradasGroup.appendChild(option);
+        } else {
+          saidasGroup.appendChild(option);
+        }
+      });
+
+      if (entradasGroup.children.length > 0) extratoFilterCategory.appendChild(entradasGroup);
+      if (saidasGroup.children.length > 0) extratoFilterCategory.appendChild(saidasGroup);
     }
 
-    // Agrupar categorias por tipo (Entradas / Saídas), exceto opções especiais já adicionadas
-    const entradasGroup = document.createElement('optgroup');
-    entradasGroup.label = 'Entradas';
-    const saidasGroup = document.createElement('optgroup');
-    saidasGroup.label = 'Saídas';
+    // Sempre resetar o valor visual para 'all' ou refletir o estado
+    this._updateCategoryAllOptionText();
+    extratoFilterCategory.value = 'all';
+    
+    // Atualizar as tags visuais
+    this._renderCategoryTags();
+  }
 
-    categories.forEach((category) => {
-      const option = document.createElement('option');
-      option.value = String(category.id);
-      option.textContent = `${category.icon} ${category.name}`;
+  /**
+   * Atualiza o texto da opção "Todos" para mostrar contagem
+   * @private
+   */
+  _updateCategoryAllOptionText() {
+    const { extratoFilterCategory } = this.elements;
+    if (!extratoFilterCategory) return;
 
-      const type = (category.type || '').toString().toLowerCase();
-      if (type === 'entrada') {
-        entradasGroup.appendChild(option);
-      } else if (type === 'saída' || type === 'saida') {
-        saidasGroup.appendChild(option);
+    const allOption = extratoFilterCategory.querySelector('option[value="all"]');
+    if (!allOption) return;
+
+    const count = this._multiSelectedCategories.size;
+    if (count === 0) {
+      allOption.textContent = 'Todas as categorias';
+    } else if (count === 1) {
+      allOption.textContent = '1 categoria selecionada';
+    } else {
+      allOption.textContent = `${count} categorias selecionadas`;
+    }
+  }
+
+  /**
+   * Renderiza as tags das categorias selecionadas
+   * @private
+   */
+  _renderCategoryTags() {
+    const container = document.getElementById('extrato-filter-category-tags');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    if (this._multiSelectedCategories.size === 0) return;
+
+    this._multiSelectedCategories.forEach(id => {
+      let label = '';
+      if (id === '__invoice_payment') {
+        label = '💳 Pagamentos de Fatura';
       } else {
-        // Tipo desconhecido: adicionar fora dos grupos para não perder a opção
-        extratoFilterCategory.appendChild(option);
+        const cat = this.categoryStore.getById(id);
+        label = cat ? `${cat.icon} ${cat.name}` : id;
       }
+
+      const tag = document.createElement('div');
+      tag.className = 'extrato-filter__tag';
+      tag.innerHTML = `
+        <span>${label}</span>
+        <span class="extrato-filter__tag-remove" data-id="${id}" title="Remover">&times;</span>
+      `;
+
+      tag.querySelector('.extrato-filter__tag-remove').onclick = (e) => {
+        e.stopPropagation();
+        this._multiSelectedCategories.delete(id);
+        this._updateCategoryAllOptionText();
+        this._renderCategoryTags();
+        this.onFilterChange();
+      };
+
+      container.appendChild(tag);
     });
+  }
 
-    // Anexar grupos apenas se tiverem opções
-    if (entradasGroup.children.length > 0) extratoFilterCategory.appendChild(entradasGroup);
-    if (saidasGroup.children.length > 0) extratoFilterCategory.appendChild(saidasGroup);
+  /**
+   * Gerencia a mudança no select de categoria (Multi-seleção via Stacking)
+   * @private
+   */
+  _handleCategoryChange(event) {
+    const val = event.target.value;
 
-    // Restaurar valor anterior se ainda existir
-    if (previousValue && Array.from(extratoFilterCategory.options).some((opt) => opt.value === previousValue)) {
-      extratoFilterCategory.value = previousValue;
+    if (val === 'all') {
+      this._multiSelectedCategories.clear();
+    } else if (val === '__empty') {
+      return;
+    } else {
+      // Toggle a categoria
+      if (this._multiSelectedCategories.has(val)) {
+        this._multiSelectedCategories.delete(val);
+      } else {
+        this._multiSelectedCategories.add(val);
+      }
     }
+
+    this._updateCategoryAllOptionText();
+    this._renderCategoryTags();
+    
+    // Resetar o select para 'all' para que o usuário possa escolher outro
+    event.target.value = 'all';
+    
+    this.onFilterChange();
   }
 
   /**
@@ -267,9 +391,14 @@ export class FilterManager {
    * Obtém transações filtradas baseado nos filtros atuais
     * Sistema de filtros refatorado
    * - Filtros de período e categoria agora funcionam VERDADEIRAMENTE em conjunto
-   * - "Pagamentos de Fatura" filtram corretamente por paymentMethod = 'pagar-credito'
-   * - Lógica clara e sem ambiguidades
-   * @returns {Array} Lista de transações filtradas
+   * - "PaselectedCategories = extratoFilterCategory 
+      ? Array.from(extratoFilterCategory.selectedOptions).map(opt => opt.value)
+      : ['all'];
+
+  /**
+   * Obtém as transações filtradas conforme o estado atual dos inputs da UI.
+   * Utiliza cache agressivo por revisão da Store + Snapshot dos filtros.
+   * @returns {Array}
    */
   getFilteredTransactions() {
     const {
@@ -285,9 +414,12 @@ export class FilterManager {
     // ==================================================
     // Cache (chave por revisão + valores de filtro)
     // ==================================================
+    // Usamos as categorias do Set interno
+    const selectedCategories = Array.from(this._multiSelectedCategories);
+
     const filterSnapshot = {
       type: extratoFilterType ? extratoFilterType.value : 'all',
-      category: extratoFilterCategory ? extratoFilterCategory.value : 'all',
+      categories: selectedCategories.join(','),
       accountType: extratoFilterAccountType ? extratoFilterAccountType.value : 'all',
       accountId: extratoFilterAccountId ? extratoFilterAccountId.value : 'all',
       day: extratoFilterDate ? extratoFilterDate.value : '',
@@ -317,15 +449,14 @@ export class FilterManager {
     let transactions = this._filterByPeriod(type, extratoFilterDate, extratoFilterMonthInput, extratoFilterYear);
 
     // ETAPA 2 (otimizada): Categoria + Conta em uma única passagem quando possível
-    const categoryValue = filterSnapshot.category;
     const accountType = filterSnapshot.accountType;
     const accountId = filterSnapshot.accountId;
 
-    const shouldFilterCategory = !(categoryValue === 'all' || categoryValue === '__empty');
+    const shouldFilterCategory = selectedCategories.length > 0;
     const shouldFilterAccount = !!accountType && accountType !== 'all';
 
     if (shouldFilterCategory || shouldFilterAccount) {
-      transactions = this._filterByCategoryAndAccount(transactions, categoryValue, accountType, accountId);
+      transactions = this._filterByCategoryAndAccount(transactions, selectedCategories, accountType, accountId);
     }
 
     // Salvar cache
@@ -346,7 +477,7 @@ export class FilterManager {
       `db:${debitRevision}`,
       `bf:${benefitRevision}`,
       `t:${filterSnapshot.type}`,
-      `c:${filterSnapshot.category}`,
+      `c:${filterSnapshot.categories || filterSnapshot.category}`,
       `at:${filterSnapshot.accountType}`,
       `ai:${filterSnapshot.accountId}`,
       `d:${filterSnapshot.day}`,
@@ -370,42 +501,11 @@ export class FilterManager {
   }
 
   /**
-   * Cache de IDs para filtro por conta.
-   * @private
-   */
-  _getAccountIdsSet(type) {
-    if (!type || type === 'all') return new Set();
-
-    const cacheEntry = this._accountIdsCache[type];
-
-    let store = null;
-    if (type === 'credito') store = this.creditStore;
-    if (type === 'debito') store = this.debitStore;
-    if (type === 'beneficio') store = this.benefitStore;
-
-    const revision = this._getStoreRevisionSafe(store);
-
-    if (cacheEntry && cacheEntry.revision === revision && cacheEntry.set instanceof Set) {
-      return cacheEntry.set;
-    }
-
-    const items = store?.getAll?.() || [];
-    const nextSet = new Set(items.map((x) => String(x.id)));
-
-    if (cacheEntry) {
-      cacheEntry.revision = revision;
-      cacheEntry.set = nextSet;
-    }
-
-    return nextSet;
-  }
-
-  /**
    * Filtra em uma única passagem por categoria e conta.
    * @private
    */
-  _filterByCategoryAndAccount(transactions, categoryValue, accountType, accountId) {
-    const shouldFilterCategory = !(categoryValue === 'all' || categoryValue === '__empty');
+  _filterByCategoryAndAccount(transactions, selectedCategories, accountType, accountId) {
+    const shouldFilterCategory = Array.isArray(selectedCategories) && selectedCategories.length > 0;
     const shouldFilterAccount = !!accountType && accountType !== 'all';
 
     const accountIds = shouldFilterAccount ? this._getAccountIdsSet(accountType) : null;
@@ -415,24 +515,36 @@ export class FilterManager {
     // ------------
     const selectedAccountId = String(accountId);
     const accountIsAll = selectedAccountId === 'all';
-    const categoryIdFilter = String(categoryValue);
+    
+    // Set para busca rápida
+    const categorySet = new Set(selectedCategories);
+    const filterInvoice = categorySet.has('__invoice_payment');
 
     const methodOf = (t) => (t?.paymentMethod || t?.category || '').toString().toLowerCase();
 
     return transactions.filter((t) => {
       // ================ Categoria
       if (shouldFilterCategory) {
-        if (categoryValue === '__invoice_payment') {
+        const categoryId = t.categoryId ? String(t.categoryId) : null;
+        
+        let matchCategory = false;
+        
+        // Verifica se é pagamento de fatura
+        if (filterInvoice) {
           const isInvoicePayment =
             t.categoryName === 'Pagamento de Fatura' ||
             (t.categoryId === null && !!t.linkedTransactionId) ||
             (t.categoryId === null && t.metadata?.linkedPayment === true);
-
-          if (!isInvoicePayment) return false;
-        } else {
-          const categoryId = t.categoryId ? String(t.categoryId) : null;
-          if (categoryId !== categoryIdFilter) return false;
+          
+          if (isInvoicePayment) matchCategory = true;
         }
+
+        // Verifica o ID da categoria no conjunto
+        if (!matchCategory && categoryId && categorySet.has(categoryId)) {
+          matchCategory = true;
+        }
+
+        if (!matchCategory) return false;
       }
 
       // ================ Conta/Cartão/Benefício

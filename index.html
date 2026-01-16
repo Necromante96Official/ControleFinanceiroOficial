@@ -9,8 +9,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Controle Financeiro" />
     <!-- Cache-busting do ícone para garantir atualização em PWAs instalados -->
-    <link rel="apple-touch-icon" href="assets/logo/apple-touch-icon-180.png?v=250" />
-    <link rel="icon" type="image/png" href="assets/logo/icon-192.png?v=250" />
+    <link rel="apple-touch-icon" href="assets/logo/apple-touch-icon-180.png?v=262" />
+    <link rel="icon" type="image/png" href="assets/logo/icon-192.png?v=262" />
     <link rel="manifest" href="manifest.json" />
     <title>Controle Financeiro Familiar</title>
     <link rel="stylesheet" href="assets/css/index.css" />
@@ -197,8 +197,9 @@
             <label class="extrato-filter extrato-filter--category">
               <span class="extrato-filter__label">Categoria</span>
               <select id="extrato-filter-category" class="extrato-filter__control">
-                <option value="all">Todas as categorias juntas</option>
+                <option value="all" selected>Todas as categorias</option>
               </select>
+              <div id="extrato-filter-category-tags" class="extrato-filter__tags"></div>
             </label>
             <label class="extrato-filter extrato-filter--account-type">
               <span class="extrato-filter__label">Tipo</span>
@@ -238,6 +239,7 @@
           </div>
         </div>
         <footer class="modal__footer">
+          <button id="extrato-filters-clear" class="button-secondary" type="button">Limpar Filtros</button>
           <button id="extrato-filters-close" class="button-secondary" type="button">Fechar</button>
         </footer>
       </div>

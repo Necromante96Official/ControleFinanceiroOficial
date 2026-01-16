@@ -1294,6 +1294,9 @@
 
 select.extrato-filter__control {
   cursor: pointer;
+}
+
+select.extrato-filter__control:not([multiple]) {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -1303,6 +1306,62 @@ select.extrato-filter__control {
   background-size: 12px 12px;
   /* Reserva espaço para o ícone do select (evita texto sobrepor a seta) */
   padding-right: 2.4rem;
+}
+
+select.extrato-filter__control[multiple] {
+  padding: 0.5rem;
+  height: auto;
+}
+
+select.extrato-filter__control[multiple] option {
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 2px;
+  border-radius: var(--radius-sm);
+}
+
+select.extrato-filter__control[multiple] option:checked {
+  background: var(--primary) !important;
+  color: #000;
+  font-weight: 600;
+}
+
+.extrato-filter__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  min-height: 0;
+}
+
+.extrato-filter__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.6rem;
+  background: rgba(31, 194, 192, 0.15);
+  border: 1px solid rgba(31, 194, 192, 0.3);
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: default;
+}
+
+.extrato-filter__tag-remove {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  font-size: 10px;
+  transition: all 0.2s;
+}
+
+.extrato-filter__tag-remove:hover {
+  background: var(--danger);
 }
 
 .extrato-filter__control:hover {
@@ -2192,4 +2251,66 @@ select.extrato-filter__control {
   background: rgba(255, 255, 255, 0.03);
   border-radius: var(--radius-md);
   border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+/* ========================================
+   FILTRO DE CATEGORIAS - Etiquetas (Tags)
+   ======================================== */
+.extrato-filter__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  min-height: 0;
+}
+
+.extrato-filter__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(31, 194, 192, 0.1);
+  border: 1px solid rgba(31, 194, 192, 0.3);
+  border-radius: 100px;
+  font-size: 0.8rem;
+  color: #1fc2c0;
+  cursor: default;
+  animation: tagFadeIn 0.2s ease-out;
+  transition: all 0.2s ease;
+}
+
+.extrato-filter__tag:hover {
+  background: rgba(31, 194, 192, 0.2);
+  border-color: rgba(31, 194, 192, 0.5);
+}
+
+.extrato-filter__tag-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: inherit;
+  font-size: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.extrato-filter__tag-remove:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--color-red);
+}
+
+@keyframes tagFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

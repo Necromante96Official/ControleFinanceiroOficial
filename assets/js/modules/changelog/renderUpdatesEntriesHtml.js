@@ -58,7 +58,7 @@ export function renderUpdatesEntriesHtml(entries, options) {
           <header class="updates__header">
             <h4 class="updates__title">${title}</h4>
             ${meta ? `<p class="updates__meta">${meta}</p>` : ''}
-            ${author ? `<p class="updates__author">Desenvolvido por ${author}</p>` : ''}
+            ${(author && index === 0) ? `<p class="updates__author">Desenvolvido por ${author}</p>` : ''}
 
             <div class="updates__divider">${divider}</div>
 

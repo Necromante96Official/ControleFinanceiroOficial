@@ -5,7 +5,7 @@
 // Prefixo fixo para não apagar caches de outros apps na mesma origem.
 const CACHE_PREFIX = 'controlefinanceiro';
 // Build do app (usado para versionar o cache e evitar assets antigos).
-const APP_BUILD = '250';
+const APP_BUILD = '262';
 
 /** Notificações (push/showNotification) desativadas no momento (solicitado). */
 const NOTIFICATIONS_ENABLED = false;
@@ -188,7 +188,7 @@ const STATIC_ASSETS = [
   './assets/js/modules/changelog/updatesModalManager.js',
   './assets/changelog/updates.md',
   // Cache-busting para match com fetch("...updates.md?v=<build>")
-  './assets/changelog/updates.md?v=250',
+  './assets/changelog/updates.md?v=262',
 
   // Utility Modules
   './assets/js/modules/categoryPalette.js',
@@ -211,17 +211,17 @@ const STATIC_ASSETS = [
   // Assets
   './assets/logo/logo.png',
   // Cache-busting do ícone (mantém compatibilidade com referências sem query)
-  './assets/logo/logo.png?v=250',
+  './assets/logo/logo.png?v=262',
 
   // Ícones reais para instalação (Android/Chrome)
   './assets/logo/icon-96.png',
-  './assets/logo/icon-96.png?v=250',
+  './assets/logo/icon-96.png?v=262',
   './assets/logo/icon-192.png',
-  './assets/logo/icon-192.png?v=250',
+  './assets/logo/icon-192.png?v=262',
   './assets/logo/icon-512.png',
-  './assets/logo/icon-512.png?v=250',
+  './assets/logo/icon-512.png?v=262',
   './assets/logo/apple-touch-icon-180.png',
-  './assets/logo/apple-touch-icon-180.png?v=250'
+  './assets/logo/apple-touch-icon-180.png?v=262'
 ];
 
 // ============================================
@@ -763,7 +763,7 @@ self.addEventListener('message', event => {
         const replyPort = event?.ports?.[0];
         if (replyPort && typeof replyPort.postMessage === 'function') {
           replyPort.postMessage({
-            version: 'v1.0.8',
+            version: 'v1.0.3',
             build: APP_BUILD
           });
         }
