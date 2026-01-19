@@ -35,10 +35,16 @@
 
 ---
 
-# Filtro Híbrido e Sincronização de Sistema
-## Build 262 | Versão 1.0.3
+# Central de Ajuda, Filtros Inteligentes e Otimização
+## Build 263 | Versão 1.0.3
 ### ------------------------
 
+- Criamos o novo "Guia de Uso" (Como usar?), acessível na Central de Configurações, com um passo a passo visual e dinâmico para novos usuários.
+===
+- O botão do Guia foi desenvolvido com uma animação constante e atraente, facilitando sua localização para quem precisa de ajuda imediata.
+===
+- O Guia utiliza elementos visuais reais do sistema (como cartões e etiquetas) para exemplificar o funcionamento de categorias e lançamentos.
+===
 - Implementamos um novo sistema de filtro híbrido para as categorias: mantivemos o visual clássico do menu suspenso, mas agora você pode selecionar várias categorias ao mesmo tempo.
 ===
 - Adicionamos um sistema de "Etiquetas" (Tags) que aparecem abaixo do filtro. Toda categoria selecionada vira uma etiqueta que pode ser removida individualmente clicando no "X".
@@ -49,11 +55,9 @@
 ===
 - Aperfeiçoamos a lógica de filtragem para garantir que a transição entre telas e o carregamento dos dados ocorram de forma instantânea e sem erros.
 ===
-- Sincronização e otimização total do sistema para garantir que todas as alterações visuais e lógicas estejam aplicadas corretamente em todos os seus dispositivos.
+- Otimizamos o espaçamento na Central de Configurações para comportar melhor as opções de suporte, histórico e o novo guia.
 ===
-- Agora os títulos das versões no histórico aparecem em letras maiúsculas e com um azul vibrante, facilitando a identificação.
-===
-- Ajustamos o histórico para que os créditos de desenvolvimento e o botão de atendimento via WhatsApp apareçam apenas na versão mais atual, deixando o visual mais limpo e focado.
+- Refinamos as animações de abertura de modais para garantir uma navegação mais fluida e prazerosa em qualquer dispositivo.
 
 # Melhorias na Central de Configurações
 ## Build 251 | Versão 1.0.2

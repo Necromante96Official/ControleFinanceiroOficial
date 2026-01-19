@@ -4,7 +4,7 @@
   <p><strong>A forma mais inteligente, simples e segura de organizar suas finanças cotidianas.</strong></p>
   <p>
     <img alt="Versão" src="https://img.shields.io/badge/vers%C3%A3o-1.0.3-0ea5e9?style=for-the-badge" />
-    <img alt="Build" src="https://img.shields.io/badge/build-262-22c55e?style=for-the-badge" />
+    <img alt="Build" src="https://img.shields.io/badge/build-263-22c55e?style=for-the-badge" />
     <img alt="Status" src="https://img.shields.io/badge/status-est%C3%A1vel-10b981?style=for-the-badge" />
     <img alt="PWA" src="https://img.shields.io/badge/PWA-offline--first-6366f1?style=for-the-badge" />
   </p>
@@ -61,7 +61,7 @@ Diferente de outros serviços, **nós não temos acesso aos seus dados**. Suas i
 
 - **Desenvolvedor:** Necromante96Official
 - **Versão Atual:** 1.0.3
-- **Build de Produção:** 262
+- **Build de Produção:** 263
 
 ---
 

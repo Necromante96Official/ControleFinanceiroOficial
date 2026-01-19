@@ -160,6 +160,10 @@ export class DangerZoneManager {
             <button class="settings-action" type="button" data-action="open-settings-modal" data-modal="logs">
               <span class="settings-action__text">Logs</span>
             </button>
+
+            <button class="settings-action settings-action--tutorial" type="button" data-action="open-settings-modal" data-modal="tutorial">
+              <span class="settings-action__text">💡 Como usar?</span>
+            </button>
         </div>
 
         <!-- ================================================== -->
@@ -354,6 +358,68 @@ export class DangerZoneManager {
           </div>
         </section>
 
+        <!-- Tutorial Modal -->
+        <section id="dz-modal-tutorial" class="modal" aria-hidden="true" data-modal="tutorial">
+          <div class="modal__overlay" data-action="close-settings-modal" data-modal="tutorial" aria-hidden="true"></div>
+          <div class="modal__container modal__container--settings-topic" role="dialog" aria-modal="true" aria-labelledby="dz-modal-tutorial-title">
+            <header class="modal__header">
+              <h3 id="dz-modal-tutorial-title" class="modal__title">Guia de Uso</h3>
+              <button class="modal__close" type="button" data-action="close-settings-modal" data-modal="tutorial" aria-label="Fechar">✕</button>
+            </header>
+            <div class="modal__body">
+              <div class="tutorial-list">
+                
+                <div class="tutorial-step">
+                  <div class="tutorial-step__header">
+                    <div class="tutorial-step__number">1</div>
+                    <h4 class="tutorial-step__title">Organize suas Categorias</h4>
+                  </div>
+                  <div class="tutorial-step__content">
+                    O primeiro passo é definir seus grupos de gastos. Vá na aba <strong>Categorias</strong> e crie itens como "Alimentação", "Lazer" ou "Salário".
+                    <div class="tutorial-example">
+                      <div class="tut-card">🥗 Alimentação <span class="tut-badge">Saída</span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tutorial-step">
+                  <div class="tutorial-step__header">
+                    <div class="tutorial-step__number">2</div>
+                    <h4 class="tutorial-step__title">Cadastre suas Fontes</h4>
+                  </div>
+                  <div class="tutorial-step__content">
+                    Configure onde seu dinheiro circula. Use as abas <strong>Benefícios</strong> para Vales, <strong>Crédito</strong> para Cartões e <strong>Débito</strong> para contas bancárias ou dinheiro físico.
+                  </div>
+                </div>
+
+                <div class="tutorial-step">
+                  <div class="tutorial-step__header">
+                    <div class="tutorial-step__number">3</div>
+                    <h4 class="tutorial-step__title">Registre no Extrato</h4>
+                  </div>
+                  <div class="tutorial-step__content">
+                    Esta é a aba principal! Use o botão <strong>(+)</strong> para lançar novos gastos. O sistema atualizará os saldos de todas as suas contas automaticamente.
+                    <div class="tutorial-example">
+                      <div class="tut-card" style="border-left-color: #0ea5e9;">💰 Recebimento <span class="tut-badge" style="background: rgba(34, 197, 94, 0.2); color: #22c55e;">Entrada</span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tutorial-step">
+                  <div class="tutorial-step__header">
+                    <div class="tutorial-step__number">4</div>
+                    <h4 class="tutorial-step__title">Mantenha seu Backup</h4>
+                  </div>
+                  <div class="tutorial-step__content">
+                    Como seus dados ficam salvos apenas no seu aparelho, lembre-se de vir aqui em <strong>Configurações</strong> e gerar um <strong>Backup</strong> regularmente para sua segurança.
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </section>
+
       <!-- Modal de Confirmação -->
       <div class="danger-confirmation-modal" id="danger-confirm-modal" aria-hidden="true">
         <div class="danger-confirmation-modal__content">
@@ -407,7 +473,8 @@ export class DangerZoneManager {
       backup: document.getElementById('dz-modal-backup'),
       limpeza: document.getElementById('dz-modal-limpeza'),
       reset: document.getElementById('dz-modal-reset'),
-      logs: document.getElementById('dz-modal-logs')
+      logs: document.getElementById('dz-modal-logs'),
+      tutorial: document.getElementById('dz-modal-tutorial')
     };
 
     this.statsElements = {

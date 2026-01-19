@@ -12,7 +12,7 @@ export const APP_VERSION = '1.0.3';
 
 /** Build do aplicativo (formato com pontos para cache/versionamento). */
 // Build incremental (ex.: 308, 309, 310...) usado para cache/versionamento.
-export const APP_BUILD = '262';
+export const APP_BUILD = '263';
 
 
 
