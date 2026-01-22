@@ -5,7 +5,7 @@
 // Prefixo fixo para não apagar caches de outros apps na mesma origem.
 const CACHE_PREFIX = 'controlefinanceiro';
 // Build do app (usado para versionar o cache e evitar assets antigos).
-const APP_BUILD = '263';
+const APP_BUILD = '264';
 
 /** Notificações (push/showNotification) desativadas no momento (solicitado). */
 const NOTIFICATIONS_ENABLED = false;
@@ -108,7 +108,7 @@ const STATIC_ASSETS = [
   './assets/css/install-banner.css',
   './assets/css/danger-zone.css',
   // Main JS
-  './assets/js/main.js',
+  './assets/js/main.js?v=264',
   // Core Constants (shared by all modules)
   './assets/js/modules/constants.js',
   // Utilitários de normalização monetária
@@ -188,7 +188,7 @@ const STATIC_ASSETS = [
   './assets/js/modules/changelog/updatesModalManager.js',
   './assets/changelog/updates.md',
   // Cache-busting para match com fetch("...updates.md?v=<build>")
-  './assets/changelog/updates.md?v=263',
+  './assets/changelog/updates.md?v=264',
 
   // Utility Modules
   './assets/js/modules/categoryPalette.js',
@@ -211,17 +211,17 @@ const STATIC_ASSETS = [
   // Assets
   './assets/logo/logo.png',
   // Cache-busting do ícone (mantém compatibilidade com referências sem query)
-  './assets/logo/logo.png?v=263',
+  './assets/logo/logo.png?v=264',
 
   // Ícones reais para instalação (Android/Chrome)
   './assets/logo/icon-96.png',
-  './assets/logo/icon-96.png?v=263',
+  './assets/logo/icon-96.png?v=264',
   './assets/logo/icon-192.png',
-  './assets/logo/icon-192.png?v=263',
+  './assets/logo/icon-192.png?v=264',
   './assets/logo/icon-512.png',
-  './assets/logo/icon-512.png?v=263',
+  './assets/logo/icon-512.png?v=264',
   './assets/logo/apple-touch-icon-180.png',
-  './assets/logo/apple-touch-icon-180.png?v=263'
+  './assets/logo/apple-touch-icon-180.png?v=264'
 ];
 
 // ============================================
@@ -237,7 +237,7 @@ const CORE_ASSETS = [
   './index.html',
   './manifest.json',
   './assets/css/index.css',
-  './assets/js/main.js'
+  './assets/js/main.js?v=264'
 ];
 
 /**

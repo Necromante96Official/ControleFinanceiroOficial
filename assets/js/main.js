@@ -23,6 +23,44 @@
 
  */
 
+// ==================================================
+// VERIFICAÇÃO DE VERSÃO E CACHE
+// ==================================================
+import { getAppMeta } from "./modules/appMeta/getAppMeta.js";
+
+const currentMeta = getAppMeta();
+const lastVersion = localStorage.getItem('app-last-version');
+
+if (lastVersion && lastVersion !== currentMeta.version) {
+  console.log(`🔄 Versão atualizada: ${lastVersion} → ${currentMeta.version}`);
+  console.log('🧹 Limpando cache antigo...');
+
+  // Limpar caches antigos
+  if ('caches' in window) {
+    caches.keys().then(names => {
+      names.forEach(name => {
+        if (name.includes('controlefinanceiro') && !name.includes('264')) {
+          console.log(`🗑️ Removendo cache antigo: ${name}`);
+          caches.delete(name);
+        }
+      });
+    });
+  }
+
+  // Limpar localStorage de versões antigas (opcional)
+  const keysToRemove = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith('app-cache-')) {
+      keysToRemove.push(key);
+    }
+  }
+  keysToRemove.forEach(key => localStorage.removeItem(key));
+}
+
+// Salvar versão atual
+localStorage.setItem('app-last-version', currentMeta.version);
+
 // Stores
 import { CategoryStore } from "./modules/categoryStore.js";
 import { BenefitStore } from "./modules/benefitStore.js";
@@ -636,6 +674,9 @@ function initApp() {
     const repairReport = runDataHealthRepair(stores);
     if (repairReport?.creditUsed?.changed) {
       console.log(`🛡️ DataHealth: ${repairReport.creditUsed.fixes.length} correção(ões) aplicada(s) no crédito`);
+    }
+    if (repairReport?.benefitUsed?.changed) {
+      console.log(`🛡️ DataHealth: ${repairReport.benefitUsed.fixes.length} correção(ões) aplicada(s) nos benefícios`);
     }
     if (repairReport?.debitBalances?.changed) {
       console.log(`🛡️ DataHealth: ${repairReport.debitBalances.fixes.length} correção(ões) aplicada(s) no débito`);

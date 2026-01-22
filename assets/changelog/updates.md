@@ -35,6 +35,20 @@
 
 ---
 
+# Reconciliação de Benefícios e Precisão de Dados
+## Build 264 | Versão 1.0.4
+### ------------------------
+
+- Implementamos um novo sistema de reconciliação automática para os benefícios. Agora, ao importar um backup, o sistema recalcula instantaneamente o saldo utilizado e o saldo livre com base no seu histórico de lançamentos.
+===
+- Resolvemos o problema onde os cartões de benefícios exibiam valores incorretos (ou voltavam ao limite total) após a restauração de um arquivo de backup.
+===
+- Refinamos a lógica de importação para garantir que todos os saldos de crédito e benefícios estejam em perfeita sincronia com o extrato logo após a conclusão da tarefa.
+===
+- Melhoramos a estabilidade do sistema de "Auto Health" (Saúde dos Dados), que agora atua de forma mais abrangente durante rollbacks e restaurações.
+
+---
+
 # Central de Ajuda, Filtros Inteligentes e Otimização
 ## Build 263 | Versão 1.0.3
 ### ------------------------

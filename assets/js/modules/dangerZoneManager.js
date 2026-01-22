@@ -24,6 +24,7 @@ import { formatBackupPreviewMessage } from './backup/formatBackupPreviewMessage.
 import { textToSafeHtml } from './backup/textToSafeHtml.js';
 import { getAppMeta } from './backup/getAppMeta.js';
 import { sanitizeBackupPayload } from './backup/sanitizeBackupPayload.js';
+import { runDataHealthRepair } from './dataHealth/runDataHealthRepair.js';
 
 export class DangerZoneManager {
   constructor(options) {
@@ -1353,6 +1354,9 @@ export class DangerZoneManager {
           // 5. Importar transações (Snapshot)
           this.stores.transactionStore.setAll(sanitized.data.transactions);
 
+          // Recalcular saúde dos dados após importação (conserta saldos de crédito e benefícios)
+          runDataHealthRepair(this.stores);
+
           this._refreshUI();
 
           this._showToast('✅ Dados importados com sucesso!', 'success');
@@ -1474,6 +1478,9 @@ export class DangerZoneManager {
           console.warn('⚠️ Falha ao retomar auto-reload após rollback:', resumeError);
         }
       }
+
+      // Recalcular saúde dos dados após rollback (garante consistência)
+      runDataHealthRepair(this.stores);
 
       this._refreshUI();
       return { success: true };
@@ -1660,6 +1667,9 @@ export class DangerZoneManager {
           console.warn('⚠️ Falha ao retomar auto-reload após restore:', resumeError);
         }
       }
+
+      // Recalcular saúde dos dados após restore (garante consistência)
+      runDataHealthRepair(this.stores);
 
       this._refreshUI();
 
