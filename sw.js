@@ -5,7 +5,7 @@
 // Prefixo fixo para não apagar caches de outros apps na mesma origem.
 const CACHE_PREFIX = 'controlefinanceiro';
 // Build do app (usado para versionar o cache e evitar assets antigos).
-const APP_BUILD = '280';
+const APP_BUILD = '281';
 // Versão do app (usada para exibir no aviso de update e metadados do SW).
 const APP_VERSION = 'v1.0.5';
 
@@ -488,11 +488,11 @@ self.addEventListener('fetch', event => {
  */
 self.addEventListener('sync', event => {
   console.log('🔄 Service Worker: Sync event recebido:', event.tag);
-  
+
   if (event.tag === 'sync-finance-data') {
     event.waitUntil(syncFinanceData());
   }
-  
+
   if (event.tag === 'sync-pending-transactions') {
     event.waitUntil(syncPendingTransactions());
   }
@@ -504,7 +504,7 @@ self.addEventListener('sync', event => {
 async function syncFinanceData() {
   try {
     console.log('🔄 Service Worker: Sincronizando dados financeiros');
-    
+
     const clients = await self.clients.matchAll();
     clients.forEach(client => {
       client.postMessage({
@@ -513,7 +513,7 @@ async function syncFinanceData() {
         timestamp: new Date().toISOString()
       });
     });
-    
+
     return true;
   } catch (error) {
     console.error('❌ Erro ao sincronizar dados:', error);
@@ -541,7 +541,7 @@ async function syncPendingTransactions() {
  */
 self.addEventListener('periodicsync', event => {
   console.log('⏰ Service Worker: Periodic sync event:', event.tag);
-  
+
   if (event.tag === 'check-benefits') {
     event.waitUntil(checkBenefitsReload());
   }
@@ -553,7 +553,7 @@ self.addEventListener('periodicsync', event => {
 async function checkBenefitsReload() {
   try {
     console.log('🔄 Verificando recarga de benefícios...');
-    
+
     const clients = await self.clients.matchAll();
     clients.forEach(client => {
       client.postMessage({
@@ -561,7 +561,7 @@ async function checkBenefitsReload() {
         timestamp: new Date().toISOString()
       });
     });
-    
+
     return true;
   } catch (error) {
     console.error('❌ Erro ao verificar benefícios:', error);
@@ -577,7 +577,7 @@ self.addEventListener('push', event => {
   if (!NOTIFICATIONS_ENABLED) return;
 
   console.log('📨 Service Worker: Push recebido');
-  
+
   let data = {
     title: 'Controle Financeiro',
     body: 'Você tem uma nova notificação',
@@ -587,7 +587,7 @@ self.addEventListener('push', event => {
     requireInteraction: false,
     type: 'info'
   };
-  
+
   if (event.data) {
     try {
       const payload = event.data.json();
@@ -609,7 +609,7 @@ self.addEventListener('push', event => {
       type: data.type
     }
   };
-  
+
   // Configurar por tipo
   switch (data.type) {
     case 'invoice-urgent': // Fatura urgente
@@ -622,7 +622,7 @@ self.addEventListener('push', event => {
         { action: 'view', title: '👁️ Ver Detalhes' }
       ];
       break;
-      
+
     case 'invoice-warning': // Fatura próxima do vencimento
       notificationConfig.body = data.body;
       notificationConfig.vibrate = [200, 100, 200];
@@ -632,7 +632,7 @@ self.addEventListener('push', event => {
         { action: 'close', title: 'Fechar' }
       ];
       break;
-      
+
     case 'limit-warning': // Limite de crédito próximo
       notificationConfig.body = data.body;
       notificationConfig.vibrate = [200, 100, 200];
@@ -641,7 +641,7 @@ self.addEventListener('push', event => {
         { action: 'close', title: 'OK' }
       ];
       break;
-      
+
     case 'benefit-reload': // Benefício recarregado
       notificationConfig.body = data.body;
       notificationConfig.vibrate = [100, 50, 100];
@@ -651,7 +651,7 @@ self.addEventListener('push', event => {
         { action: 'close', title: 'OK' }
       ];
       break;
-      
+
     case 'summary': // Resumo diário/semanal
       notificationConfig.body = data.body;
       notificationConfig.vibrate = [100];
@@ -660,7 +660,7 @@ self.addEventListener('push', event => {
         { action: 'close', title: 'Fechar' }
       ];
       break;
-      
+
     default: // Notificação genérica
       notificationConfig.body = data.body;
       notificationConfig.vibrate = [200, 100, 200];
@@ -669,7 +669,7 @@ self.addEventListener('push', event => {
         { action: 'close', title: 'Fechar' }
       ];
   }
-  
+
   event.waitUntil(
     self.registration.showNotification(data.title, notificationConfig)
   );
@@ -684,17 +684,17 @@ self.addEventListener('notificationclick', event => {
   if (!NOTIFICATIONS_ENABLED) return;
 
   console.log('🔔 Notificação clicada:', event.action, event.notification.data);
-  
+
   event.notification.close();
-  
+
   const notificationData = event.notification.data || {};
   const action = event.action;
-  
+
   // Ações específicas
   if (action === 'close') {
     return; // Apenas fecha
   }
-  
+
   if (action === 'remind') {
     // Reagendar notificação para 1 hora depois
     setTimeout(() => {
@@ -708,13 +708,13 @@ self.addEventListener('notificationclick', event => {
     }, 60 * 60 * 1000); // 1 hora
     return;
   }
-  
+
   // Determinar URL baseado na ação e tipo
   let urlToOpen = './';
-  
+
   if (action === 'pay' || action === 'view') {
     const type = notificationData.type;
-    
+
     switch (type) {
       case 'invoice-urgent':
       case 'invoice-warning':
@@ -733,7 +733,7 @@ self.addEventListener('notificationclick', event => {
   } else {
     urlToOpen = notificationData.url || './';
   }
-  
+
   event.waitUntil(
     self.clients.matchAll({ type: 'window', includeUncontrolled: true })
       .then(clientList => {
@@ -761,9 +761,9 @@ self.addEventListener('notificationclick', event => {
  */
 self.addEventListener('message', event => {
   const { type, payload } = event.data || {};
-  
+
   console.log('📩 Service Worker: Mensagem recebida:', type);
-  
+
   switch (type) {
     case 'GET_APP_META':
       // Responde via MessageChannel (event.ports[0]) quando disponível.
@@ -810,7 +810,7 @@ self.addEventListener('message', event => {
         sendInvoiceNotification(payload.invoiceData);
       }
       break;
-      
+
     case 'TRIGGER_SYNC':
       if ('sync' in self.registration) {
         self.registration.sync.register(payload?.tag || 'sync-finance-data')
@@ -822,7 +822,7 @@ self.addEventListener('message', event => {
           });
       }
       break;
-      
+
     case 'PENDING_INVOICES_DATA':
       if (!NOTIFICATIONS_ENABLED) break;
       // Recebe dados de faturas pendentes do cliente
@@ -832,12 +832,12 @@ self.addEventListener('message', event => {
         });
       }
       break;
-      
+
     case 'START_INVOICE_TIMER':
       if (!NOTIFICATIONS_ENABLED) break;
       startInvoiceNotificationTimer();
       break;
-      
+
     case 'STOP_INVOICE_TIMER':
       if (invoiceNotificationTimer) {
         clearInterval(invoiceNotificationTimer);
@@ -865,12 +865,12 @@ function startMonitoring() {
   if (monitoringTimer) {
     clearInterval(monitoringTimer);
   }
-  
+
   if (!monitoringEnabled) {
     console.log('⏸️ Monitoramento desabilitado pelo usuário');
     return;
   }
-  
+
   // Verifica imediatamente e depois a cada 30 minutos
   performMonitoringChecks();
   monitoringTimer = setInterval(performMonitoringChecks, MONITORING_INTERVAL);
@@ -895,7 +895,7 @@ function stopMonitoring() {
 async function performMonitoringChecks() {
   if (!NOTIFICATIONS_ENABLED) return;
   console.log('🔍 Executando verificações de monitoramento...');
-  
+
   try {
     await checkPendingInvoices(); // Faturas pendentes
     await checkCreditLimits(); // Limites de crédito
@@ -913,7 +913,7 @@ async function performMonitoringChecks() {
 async function checkCreditLimits() {
   try {
     const clients = await self.clients.matchAll();
-    
+
     clients.forEach(client => {
       client.postMessage({
         type: 'CHECK_CREDIT_LIMITS',
@@ -932,7 +932,7 @@ async function checkCreditLimits() {
 async function checkBenefitUsage() {
   try {
     const clients = await self.clients.matchAll();
-    
+
     clients.forEach(client => {
       client.postMessage({
         type: 'CHECK_BENEFIT_USAGE',
@@ -951,7 +951,7 @@ async function checkBenefitUsage() {
 async function checkLowBalances() {
   try {
     const clients = await self.clients.matchAll();
-    
+
     clients.forEach(client => {
       client.postMessage({
         type: 'CHECK_LOW_BALANCES',
@@ -970,7 +970,7 @@ async function checkLowBalances() {
 async function checkPendingInvoices() {
   try {
     const clients = await self.clients.matchAll();
-    
+
     // Solicita dados de faturas aos clientes
     clients.forEach(client => {
       client.postMessage({
@@ -990,18 +990,18 @@ async function sendInvoiceNotification(invoiceData) {
   if (!NOTIFICATIONS_ENABLED) return;
   try {
     const { cardName, amount, dueDay } = invoiceData;
-    
+
     const today = new Date();
     const currentDay = today.getDate();
     let daysUntilDue = dueDay - currentDay;
-    
+
     if (daysUntilDue < 0) {
       daysUntilDue += 30; // Próximo mês
     }
-    
+
     let urgencyText = '';
     let urgencyEmoji = '💳';
-    
+
     if (daysUntilDue <= 0) {
       urgencyText = 'VENCE HOJE!';
       urgencyEmoji = '🚨';
@@ -1015,7 +1015,7 @@ async function sendInvoiceNotification(invoiceData) {
       urgencyText = `Vence dia ${dueDay}`;
       urgencyEmoji = '💳';
     }
-    
+
     await self.registration.showNotification(`${urgencyEmoji} Fatura Pendente`, {
       body: `${cardName}: R$ ${amount.toFixed(2).replace('.', ',')}\n${urgencyText}`,
       icon: './assets/logo/logo.png',
@@ -1033,7 +1033,7 @@ async function sendInvoiceNotification(invoiceData) {
         { action: 'later', title: 'Lembrar Depois' }
       ]
     });
-    
+
     console.log(`📱 Notificação de fatura enviada: ${cardName}`);
   } catch (error) {
     console.error('❌ Erro ao enviar notificação de fatura:', error);

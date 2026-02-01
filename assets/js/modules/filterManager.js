@@ -26,7 +26,7 @@ export class FilterManager {
     this.creditStore = options.creditStore;
     this.debitStore = options.debitStore;
     this.benefitStore = options.benefitStore;
-    this.onFilterChange = options.onFilterChange || (() => {});
+    this.onFilterChange = options.onFilterChange || (() => { });
 
     // ==================================================
     // PERFORMANCE: Cache de filtros (listas grandes)
@@ -74,7 +74,7 @@ export class FilterManager {
     } = this.elements;
 
     if (extratoFilterType) extratoFilterType.value = 'all';
-    
+
     // Resetar multi-seleção de categorias
     this._multiSelectedCategories.clear();
     if (extratoFilterCategory) {
@@ -210,7 +210,7 @@ export class FilterManager {
     const categories = this.categoryStore.getAll();
 
     extratoFilterCategory.innerHTML = '<option value="all">Todas as categorias</option>';
-    
+
     const invoicePaymentOption = document.createElement('option');
     invoicePaymentOption.value = '__invoice_payment';
     invoicePaymentOption.textContent = '💳 Pagamentos de Fatura';
@@ -243,7 +243,7 @@ export class FilterManager {
     // Sempre resetar o valor visual para 'all' ou refletir o estado
     this._updateCategoryAllOptionText();
     extratoFilterCategory.value = 'all';
-    
+
     // Atualizar as tags visuais
     this._renderCategoryTags();
   }
@@ -331,10 +331,10 @@ export class FilterManager {
 
     this._updateCategoryAllOptionText();
     this._renderCategoryTags();
-    
+
     // Resetar o select para 'all' para que o usuário possa escolher outro
     event.target.value = 'all';
-    
+
     this.onFilterChange();
   }
 
@@ -560,7 +560,7 @@ export class FilterManager {
     // ------------
     const selectedAccountId = String(accountId);
     const accountIsAll = selectedAccountId === 'all';
-    
+
     // Set para busca rápida
     const categorySet = new Set(selectedCategories);
     const filterInvoice = categorySet.has('__invoice_payment');
@@ -571,16 +571,16 @@ export class FilterManager {
       // ================ Categoria
       if (shouldFilterCategory) {
         const categoryId = t.categoryId ? String(t.categoryId) : null;
-        
+
         let matchCategory = false;
-        
+
         // Verifica se é pagamento de fatura
         if (filterInvoice) {
           const isInvoicePayment =
             t.categoryName === 'Pagamento de Fatura' ||
             (t.categoryId === null && !!t.linkedTransactionId) ||
             (t.categoryId === null && t.metadata?.linkedPayment === true);
-          
+
           if (isInvoicePayment) matchCategory = true;
         }
 

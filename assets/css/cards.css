@@ -108,7 +108,7 @@
   background: rgba(var(--accent-rgb), 0.08);
 }
 
-.stats-strip__item + .stats-strip__item {
+.stats-strip__item+.stats-strip__item {
   border-left: 1px solid var(--border-divider);
 }
 
@@ -845,8 +845,15 @@
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
 }
 
 .credit-card__values {
@@ -916,7 +923,8 @@
   min-width: 70px;
   text-align: right;
 }
-  border-radius: 6px;
+
+border-radius: 6px;
 }
 
 .credit-card__due-label {
@@ -1799,14 +1807,21 @@ select.extrato-filter__control[multiple] option:checked {
    Painel flutuante que exibe informações completas quando um item é clicado
    Mostra: ícone, nome, origem, categoria, data, valor, botões de ação */
 .transaction-detail-overlay {
-  background: rgba(0, 0, 0, 0.6); /* Mais escuro para destacar painel centralizado */
+  background: rgba(0, 0, 0, 0.6);
+  /* Mais escuro para destacar painel centralizado */
   animation: fadeIn 0.3s ease-in-out;
-  backdrop-filter: blur(2px); /* Leve desfoque no fundo */
+  backdrop-filter: blur(2px);
+  /* Leve desfoque no fundo */
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .transaction-detail-pane {
@@ -1817,7 +1832,7 @@ select.extrato-filter__control[multiple] option:checked {
   padding: 1.25rem;
   background: linear-gradient(145deg, rgba(13, 18, 21, 0.98), rgba(8, 11, 13, 0.99));
   border: 1px solid rgba(31, 194, 192, 0.2);
-  box-shadow: 
+  box-shadow:
     0 8px 16px rgba(0, 0, 0, 0.2),
     0 16px 48px rgba(0, 0, 0, 0.5),
     0 0 32px rgba(31, 194, 192, 0.15);
@@ -1832,6 +1847,7 @@ select.extrato-filter__control[multiple] option:checked {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.9);
   }
+
   to {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
@@ -2175,7 +2191,7 @@ select.extrato-filter__control[multiple] option:checked {
   background: var(--color-selected-bg, rgba(245, 215, 66, 0.15));
   border-color: var(--color-selected-border, rgba(245, 215, 66, 0.5));
   box-shadow: 0 0 12px var(--color-selected-glow, rgba(245, 215, 66, 0.25)),
-              inset 0 1px 0 rgba(245, 215, 66, 0.1);
+    inset 0 1px 0 rgba(245, 215, 66, 0.1);
 }
 
 .category-option__icon {
@@ -2230,7 +2246,7 @@ select.extrato-filter__control[multiple] option:checked {
   background: var(--color-selected-bg, rgba(245, 215, 66, 0.15));
   border-color: var(--color-selected-border, rgba(245, 215, 66, 0.5));
   box-shadow: 0 0 12px var(--color-selected-glow, rgba(245, 215, 66, 0.25)),
-              inset 0 1px 0 rgba(245, 215, 66, 0.1);
+    inset 0 1px 0 rgba(245, 215, 66, 0.1);
 }
 
 .source-option__icon {
@@ -2320,6 +2336,7 @@ select.extrato-filter__control[multiple] option:checked {
     opacity: 0;
     transform: scale(0.9);
   }
+
   to {
     opacity: 1;
     transform: scale(1);

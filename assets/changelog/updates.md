@@ -35,13 +35,17 @@
 
 ---
 
-# Correções no Extrato e Opção de Restaurar Vale
-## Build 280 | Versão 1.0.5
+# Correções no Extrato, Opção de Restaurar Vale e Reforço na Estabilidade
+## Build 281 | Versão 1.0.5
 ### ------------------------
 
 - Corrigimos um erro que acontecia ao aplicar filtros no Extrato, garantindo que a filtragem funcione corretamente ao selecionar conta/cartão/benefício.
 ===
 - Adicionamos uma nova opção nos Benefícios para restaurar o vale ao limite padrão cadastrado, redefinindo o saldo "Livre" de forma rápida.
+===
+- Implementamos melhorias internas no sistema de filtros para garantir maior estabilidade e confiabilidade na filtragem do Extrato por conta, cartão ou benefício.
+
+---
 
 ---
 
