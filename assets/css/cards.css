@@ -687,6 +687,17 @@
   background: rgba(77, 150, 255, 0.15);
 }
 
+.benefit-card__btn--restore {
+  /* Ocupa a linha toda sem quebrar o layout (footer é grid 2 colunas) */
+  grid-column: 1 / -1;
+  border-color: rgba(31, 194, 192, 0.35);
+  color: #1fc2c0;
+}
+
+.benefit-card__btn--restore:hover {
+  background: rgba(31, 194, 192, 0.12);
+}
+
 .benefit-card__btn--delete {
   border-color: rgba(255, 159, 172, 0.3);
   color: #ff9fac;

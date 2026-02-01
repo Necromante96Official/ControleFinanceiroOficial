@@ -1,0 +1,19 @@
+# ================================
+# Arquivos do sistema operacional
+# ================================
+
+# Windows
+[Dd]esktop.ini
+Thumbs.db
+Ehthumbs.db
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ================================
+# Dependências
+# ================================
+
+node_modules/

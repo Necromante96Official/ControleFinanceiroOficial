@@ -544,6 +544,41 @@ export class GridRenderer {
 
         if (action === 'edit') {
           benefitForm.openEdit(benefit.id, benefit);
+        } else if (action === 'restore-default-limit') {
+          // ------------
+          // Restauração manual do "Livre" para o limite padrão
+          // ------------
+          const confirmed = await this.confirmationModal.show(
+            'Restaurar limite padrão',
+            `Isso vai redefinir o saldo "Livre" do benefício "${benefit.name}" para o limite cadastrado e zerar o "Usado".`,
+            'Restaurar',
+            'Cancelar'
+          );
+
+          if (!confirmed) return;
+
+          const restored = typeof benefitStore.restoreToDefaultLimit === 'function'
+            ? benefitStore.restoreToDefaultLimit(benefit.id)
+            : null;
+
+          if (restored) {
+            dispatchToast({
+              variant: 'success',
+              title: 'Limite restaurado',
+              message: `O benefício "${benefit.name}" foi restaurado para o limite padrão.`,
+              id: `benefit-restored-${benefit.id}`
+            });
+          } else {
+            dispatchToast({
+              variant: 'error',
+              title: 'Falha ao restaurar',
+              message: 'Não foi possível restaurar o limite padrão.',
+              id: `benefit-restore-failed-${benefit.id}`
+            });
+          }
+
+          this.renderBenefitCards();
+          this.statsManager?.updateBenefitStats();
         } else if (action === 'delete') {
           // Segurança: não remover benefício se houver lançamentos vinculados
           const usedCount = this._countTransactionsBy((t) => {
@@ -674,6 +709,7 @@ export class GridRenderer {
         <span class="benefit-card__progress-label">${displayPercent.toFixed(1)}% usado</span>
       </div>
       <div class="benefit-card__footer">
+        <button class="benefit-card__btn benefit-card__btn--restore" data-action="restore-default-limit" type="button">↩️ Restaurar limite</button>
         <button class="benefit-card__btn benefit-card__btn--edit" data-action="edit" type="button">✏️ Editar</button>
         <button class="benefit-card__btn benefit-card__btn--delete" data-action="delete" type="button">🗑️ Remover</button>
       </div>

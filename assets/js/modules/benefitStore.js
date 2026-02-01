@@ -295,6 +295,29 @@ export class BenefitStore extends BaseStore {
   }
 
   /**
+   * Restaura manualmente o benefício ao limite padrão cadastrado.
+   * - Zera o "Usado"
+   * - Define o "Livre" para o valor do limite
+   * - Atualiza lastReloadDate para hoje (evita recarga duplicada no mesmo ciclo)
+   * @param {number} benefitId
+   * @returns {Object|null}
+   */
+  restoreToDefaultLimit(benefitId) {
+    const benefit = this.findById(benefitId);
+    if (!benefit) return null;
+
+    const limit = getLimit(benefit);
+
+    this.update(benefitId, {
+      used: 0,
+      available: Math.max(0, limit),
+      lastReloadDate: dateUtils.today(),
+    });
+
+    return this.findById(benefitId) || null;
+  }
+
+  /**
    * Verifica se um benefício precisa de recarga
    * Lógica corrigida: funciona mesmo se o app for aberto após o dia de recarga
    * @private

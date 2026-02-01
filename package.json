@@ -1,7 +1,7 @@
 {
   "name": "controle-financeiro-familiar",
-  "version": "1.0.3",
-  "build": "263",
+  "version": "1.0.5",
+  "build": "280",
   "description": "Aplicação de controle financeiro familiar",
   "main": "index.html",
   "scripts": {

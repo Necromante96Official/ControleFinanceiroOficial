@@ -39,7 +39,8 @@ if (lastVersion && lastVersion !== currentMeta.version) {
   if ('caches' in window) {
     caches.keys().then(names => {
       names.forEach(name => {
-        if (name.includes('controlefinanceiro') && !name.includes('264')) {
+        // Manter apenas o cache do build atual (evita assets antigos em PWA/offline)
+        if (name.includes('controlefinanceiro') && !name.includes(String(currentMeta.build))) {
           console.log(`🗑️ Removendo cache antigo: ${name}`);
           caches.delete(name);
         }

@@ -8,11 +8,11 @@
 // ================================
 
 /** Versão do aplicativo (somente números e pontos). */
-export const APP_VERSION = '1.0.4';
+export const APP_VERSION = '1.0.5';
 
 /** Build do aplicativo (formato com pontos para cache/versionamento). */
 // Build incremental (ex.: 308, 309, 310...) usado para cache/versionamento.
-export const APP_BUILD = '264';
+export const APP_BUILD = '280';
 
 
 

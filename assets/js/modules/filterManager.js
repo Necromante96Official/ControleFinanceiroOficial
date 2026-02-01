@@ -501,6 +501,51 @@ export class FilterManager {
   }
 
   /**
+   * Retorna um Set de IDs válidos para o tipo de conta selecionado.
+   * - Usa cache por revisão do store para evitar recriar o Set a cada filtro.
+   * @private
+   * @param {'credito'|'debito'|'beneficio'} accountType
+   * @returns {Set<string>}
+   */
+  _getAccountIdsSet(accountType) {
+    // ------------
+    // Normalizar tipo + selecionar store correspondente
+    // ------------
+    const type = (accountType || '').toString().toLowerCase();
+    const store =
+      type === 'credito' ? this.creditStore
+        : type === 'debito' ? this.debitStore
+          : type === 'beneficio' ? this.benefitStore
+            : null;
+
+    if (!store || typeof store.getAll !== 'function') {
+      return new Set();
+    }
+
+    // ------------
+    // Cache por revisão
+    // ------------
+    const revision = this._getStoreRevisionSafe(store);
+    const cached = this._accountIdsCache?.[type];
+
+    if (cached && cached.revision === revision && cached.set instanceof Set) {
+      return cached.set;
+    }
+
+    const ids = new Set((store.getAll() || []).map((item) => String(item?.id)));
+
+    if (cached) {
+      cached.revision = revision;
+      cached.set = ids;
+    } else {
+      // Fallback (tipo inesperado)
+      this._accountIdsCache[type] = { revision, set: ids };
+    }
+
+    return ids;
+  }
+
+  /**
    * Filtra em uma única passagem por categoria e conta.
    * @private
    */

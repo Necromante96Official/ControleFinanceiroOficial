@@ -5,7 +5,9 @@
 // Prefixo fixo para não apagar caches de outros apps na mesma origem.
 const CACHE_PREFIX = 'controlefinanceiro';
 // Build do app (usado para versionar o cache e evitar assets antigos).
-const APP_BUILD = '264';
+const APP_BUILD = '280';
+// Versão do app (usada para exibir no aviso de update e metadados do SW).
+const APP_VERSION = 'v1.0.5';
 
 /** Notificações (push/showNotification) desativadas no momento (solicitado). */
 const NOTIFICATIONS_ENABLED = false;
@@ -108,7 +110,7 @@ const STATIC_ASSETS = [
   './assets/css/install-banner.css',
   './assets/css/danger-zone.css',
   // Main JS
-  './assets/js/main.js?v=264',
+  `./assets/js/main.js?v=${APP_BUILD}`,
   // Core Constants (shared by all modules)
   './assets/js/modules/constants.js',
   // Utilitários de normalização monetária
@@ -188,7 +190,7 @@ const STATIC_ASSETS = [
   './assets/js/modules/changelog/updatesModalManager.js',
   './assets/changelog/updates.md',
   // Cache-busting para match com fetch("...updates.md?v=<build>")
-  './assets/changelog/updates.md?v=264',
+  `./assets/changelog/updates.md?v=${APP_BUILD}`,
 
   // Utility Modules
   './assets/js/modules/categoryPalette.js',
@@ -211,17 +213,17 @@ const STATIC_ASSETS = [
   // Assets
   './assets/logo/logo.png',
   // Cache-busting do ícone (mantém compatibilidade com referências sem query)
-  './assets/logo/logo.png?v=264',
+  `./assets/logo/logo.png?v=${APP_BUILD}`,
 
   // Ícones reais para instalação (Android/Chrome)
   './assets/logo/icon-96.png',
-  './assets/logo/icon-96.png?v=264',
+  `./assets/logo/icon-96.png?v=${APP_BUILD}`,
   './assets/logo/icon-192.png',
-  './assets/logo/icon-192.png?v=264',
+  `./assets/logo/icon-192.png?v=${APP_BUILD}`,
   './assets/logo/icon-512.png',
-  './assets/logo/icon-512.png?v=264',
+  `./assets/logo/icon-512.png?v=${APP_BUILD}`,
   './assets/logo/apple-touch-icon-180.png',
-  './assets/logo/apple-touch-icon-180.png?v=264'
+  `./assets/logo/apple-touch-icon-180.png?v=${APP_BUILD}`
 ];
 
 // ============================================
@@ -237,7 +239,7 @@ const CORE_ASSETS = [
   './index.html',
   './manifest.json',
   './assets/css/index.css',
-  './assets/js/main.js?v=264'
+  `./assets/js/main.js?v=${APP_BUILD}`
 ];
 
 /**
@@ -320,7 +322,14 @@ self.addEventListener('fetch', event => {
     return event.respondWith(
       (async () => {
         const cache = await caches.open(CACHE_NAME);
-        const cachedResponse = await cache.match(request);
+        // ------------
+        // Cache match tolerante a querystring (ex.: ?v=<build>)
+        // - Durante install, alguns assets podem estar sem query.
+        // - No HTML/manifest, usamos cache-busting com ?v=...
+        // ------------
+        const cachedResponse =
+          (await cache.match(request)) ||
+          (await cache.match(request, { ignoreSearch: true }));
 
         // -------------------------
         // Scripts e CSS: Network First
@@ -763,7 +772,7 @@ self.addEventListener('message', event => {
         const replyPort = event?.ports?.[0];
         if (replyPort && typeof replyPort.postMessage === 'function') {
           replyPort.postMessage({
-            version: 'v1.0.3',
+            version: APP_VERSION,
             build: APP_BUILD
           });
         }
